@@ -1,12 +1,20 @@
 #include <iostream>
 #include <graphics.h>
+#include "View/control.h"
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 int main(int argc, char** argv) {
-	initgraph(1024, 680) ;	//1.创建绘图窗口 
-	IMAGE img;   //2.创建存放图片指针的变量 
-	loadimage(&img, "imge/LMS.jpg", 1024, 680) ;  //3.找到图片文件指针，设定图片的显示规格 
-	putimage(0, 0, &img) ;  //4.显示图片
+	//1.创建绘图窗口 
+	initgraph(1024, 680) ;	
+	
+	//2.显示图片背景 
+	IMAGE img;   
+	loadimage(&img, "imge/LMS.jpg", 1024, 680) ;  
+	putimage(0, 0, &img) ;  
+	
+	//3.绘制按钮
+	CONTROL_T lab1 = {200, 200, 100, 50, WHITE, WHITE, CYAN} ;
+	
 	while(1)
 	{
 		
