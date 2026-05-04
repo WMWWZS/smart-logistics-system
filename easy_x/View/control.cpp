@@ -46,6 +46,7 @@ void control_show(CONTROL_T ctr1)
 		for(i = 0; i < strlen(str); i++) 
 		{
 			str[i] = '*';
+			
 		}
 	}
 	outtextxy(ctr1.x + 5, ctr1.y + 15, str)	;
