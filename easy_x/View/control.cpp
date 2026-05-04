@@ -52,3 +52,67 @@ void control_show(CONTROL_T ctr1)
 	outtextxy(ctr1.x + 5, ctr1.y + 15, str)	;
 }
 
+
+# 初始化
+mouse = Controller()
+# 加载YOLOv8 官方预训练模型（你以后可以换成自己训练的模型）
+model = YOLO("yolov8n.pt")
+
+# 屏幕中心
+SCREEN_W = 1920
+SCREEN_H = 1080
+CENTER_X = SCREEN_W / 2
+CENTER_Y = SCREEN_H / 2
+
+# 平滑系数 0~1 越小越慢越静默
+SMOOTH_FACTOR = 0.08
+
+def smooth_aim(dx, dy):
+    """平滑插值 只做原理演示"""
+    move_x = dx * SMOOTH_FACTOR
+    move_y = dy * SMOOTH_FACTOR
+    return move_x, move_y
+
+# 截屏循环
+with mss.mss() as sct:
+    monitor = sct.monitors[1]
+    while True:
+        # 截全屏
+        sct_img = sct.grab(monitor)
+        frame = np.array(sct_img)
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
+
+        # YOLO推理
+        results = model(frame, conf=0.5)
+
+        for res in results:
+            boxes = res.boxes
+            if boxes is None:
+                continue
+
+            for box in boxes:
+                # 框坐标 x1 y1 x2 y2
+                x1, y1, x2, y2 = box.xyxy[0]
+                # 目标中心
+                tar_x = (x1 + x2) / 2
+                tar_y = (y1 + y2) / 2
+
+                # 计算偏移
+                dx = tar_x - CENTER_X
+                dy = tar_y - CENTER_Y
+
+                # 平滑位移
+                mx, my = smooth_aim(dx, dy)
+
+                # 移动鼠标（原理调用）
+                mouse.move(mx, my)
+
+                # 画框看效果
+                cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0,255,0), 2)
+
+        # 显示画面
+        cv2.imshow("YOLO Vision Demo", frame)
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+
+cv2.destroyAllWindows()
