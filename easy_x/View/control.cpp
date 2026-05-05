@@ -38,7 +38,7 @@ void control_show(CONTROL_T ctr1)
 	else if(ctr1.type == BUTTON) 
 	{
 		settextstyle(16, 10, _T("ºÚÌå"));
-		int center = ctr1.x + (ctr1.width - strlen(ctr1.text) * 2 * 10) ;
+		int center = ctr1.x + (ctr1.width - strlen(ctr1.text) *10) / 2;
 		outtextxy(center, ctr1.y + 15, ctr1.text) ;
 	}
 	else if(ctr1.type == EDIT_PWD)	

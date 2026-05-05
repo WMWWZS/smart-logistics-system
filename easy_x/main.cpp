@@ -5,20 +5,26 @@
 
 int main(int argc, char** argv) {
 	//1.创建绘图窗口 
-	initgraph(1024, 680) ;	
+	initgraph(800, 600) ;	
 	
 	//2.显示图片背景 
 	IMAGE img;   
-	loadimage(&img, "imge/LMS.jpg", 1024, 680) ;  
+	loadimage(&img, "imge/LMS.jpg", 800, 600) ;  
 	putimage(0, 0, &img) ;  
 	
 	//3.绘制按钮
 	CONTROL_T lab1 = {200, 200, 100, 50, "用户名：",WHITE, WHITE, CYAN ,LABEL, 0} ;
-	CONTROL_T edit1 = {300, 200, 100, 50, " ",LIGHTCYAN, CYAN, WHITE ,EDIT, 1} ;
-	CONTROL_T bun1 = {300, 200, 100, 50, "登录：",WHITE, WHITE, WHITE ,BUTTON, 1} ;
+	CONTROL_T edit1 = {260, 180, 100, 50, " ",LIGHTCYAN, CYAN, WHITE ,EDIT, 1} ;
+	
+	CONTROL_T lab2 = {200, 300, 100, 50, "密码：",WHITE, WHITE, CYAN ,LABEL, 0} ;
+	CONTROL_T edit2 = {260, 280, 100, 50, " ",LIGHTCYAN, CYAN, WHITE ,EDIT, 1} ;
+	
+	CONTROL_T bun1 = {300, 350, 130, 50, "登录",CYAN, LIGHTCYAN, WHITE, BUTTON, 0} ;
 	
 	control_show(lab1) ;
 	control_show(edit1) ;
+	control_show(lab2) ;
+	control_show(edit2) ;
 	control_show(bun1) ;
 	while(1)
 	{
