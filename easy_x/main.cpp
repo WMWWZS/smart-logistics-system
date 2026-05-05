@@ -13,11 +13,19 @@ int main(int argc, char** argv) {
 	putimage(0, 0, &img) ;  
 	
 	//3.绘制按钮
-	CONTROL_T lab1 = {200, 200, 100, 50, WHITE, WHITE, CYAN} ;
+	CONTROL_T lab1 = {200, 200, 100, 50, "用户名：",WHITE, WHITE, CYAN ,LABEL, 0} ;
+	CONTROL_T edit1 = {300, 200, 100, 50, " ",LIGHTCYAN, CYAN, WHITE ,EDIT, 1} ;
+	CONTROL_T bun1 = {300, 200, 100, 50, "登录：",WHITE, WHITE, WHITE ,BUTTON, 1} ;
 	
+	control_show(lab1) ;
+	control_show(edit1) ;
+	control_show(bun1) ;
 	while(1)
 	{
 		
 	}
 	return 0;
+	
 }
+
+
