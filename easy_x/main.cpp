@@ -38,45 +38,7 @@ int main(int argc, char** argv) {
 //	CONTROL_T controls[10] ;
 //	int current;
 //} WINDOW_T; 
-	    initgraph(800, 600);
-	
-	    do
-	    {
-	        // 1. 清屏
-	        cleardevice();
-	
-	        // 2. 绘图逻辑（画窗口、画控件、画角色）
-	        // window_show(win);
-	
-	        // 3. 处理键盘输入
-	        if (_kbhit())
-	        {
-	            int ch = _getch();
-	            if (ch == -32)
-	            {
-	                int key = _getch();
-	                switch(key)
-	                {
-	                    case 72: // 上
-	                        break;
-	                    case 80: // 下
-	                        break;
-	                    case 75: // 左
-	                        break;
-	                    case 77: // 右
-	                        break;
-	                }
-	            }
-	        }
-	
-	        // 4. 刷新画面
-	        FlushBatchDraw();
-	
-	    } while (1); // 条件为1，永远为真，一直循环
-	
-	    closegraph();
-	    return 0;
-	}
+
 	WINDOW_T startWin = {290, 240 , 220 ,180, WHITE, 3,{
 	{300, 250, 200, 50, "用户名：",CYAN, LIGHTCYAN, WHITE,BUTTON, 1},
 	{300, 305, 200, 50, "密码：",CYAN, LIGHTCYAN, WHITE ,BUTTON, 0},
