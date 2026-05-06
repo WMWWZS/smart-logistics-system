@@ -65,8 +65,65 @@ void window_show(WINDOW_T win)
 	}
 }
 
-WINDOW_T window_run(WINDOW_T) 
+WINDOW_T window_run(WINDOW_T win) 
 {
+	char ch1,ch2; 
+	int i = 0;
+	while(win.controls[i].type == LABLE) 
+	{
+		i++
+		if(i == win.count) 
+		{
+			i = 0; 
+		}
+	}
+	while(1) 
+	{
+		ch1 = getch() ; 
+		if(ch1 == '\r') 
+		{
+			
+		}
+		else if(ch1 >= '0' || ch1 <= '9' || ch1 >= 'a' || ch1 <= 'z' ch1 >= 'A' || ch1 <= 'Z')
+		{
+			
+		}
+		else if(ch1 == '\b') 
+		{
+			
+		}
+		else if(ch1 == -32) 
+		{
+			ch2 =  getch() ;
+			if(ch2 == KEY_UP) 
+			{
+				win.controls[i].state = 0;
+				control_show(win.controls[i]);
+				do
+				{
+					i++;
+					if(i == win.count) 
+					{
+						i = 0; 
+					}
+					
+				}while() 
+				 
+			}
+			else if(ch2 == KEY_DOWN) 
+			{
+				
+			}
+			else if(ch2 == KEY_LEFT) 
+			{
+				
+			}
+			else if(ch2 == KEY_RIGHT) 
+			{
+				
+			}
+		}
+	}
 	
 }
 
