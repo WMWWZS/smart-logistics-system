@@ -10,7 +10,7 @@
 #define LABEL    4 标签 
 */
 
-//空间显示函数 
+//控件显示函数 
 void control_show(CONTROL_T ctr1) 
 {   //框的绘制 
 	int i = 0;
@@ -51,6 +51,42 @@ void control_show(CONTROL_T ctr1)
 	}
 	outtextxy(ctr1.x + 5, ctr1.y + 15, str)	;
 }
+
+void window_show(WINDOW_T win)
+{
+	int i = 0;
+	//显示窗口背景颜色 
+	setfillcolor (win.bgColor);
+	fillrectangle (win.x, win.y, win.width + win.x, win.y + win.hight ) ;
+	
+	for(i = 0; i < win.count ; i++) 
+	{
+		control_show(win.controls[i]);
+	}
+}
+
+WINDOW_T window_run(WINDOW_T) 
+{
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -20,8 +20,39 @@ typedef struct control_t
 	int state;  //控件状态 
 }CONTROL_T; 
 
+typedef struct window_t 
+{
+	int x;
+	int y;
+	int width;
+	int hight;
+	COLORREF bgColor;
+	int count;
+	CONTROL_T controls[10] ;
+	int current;
+} WINDOW_T; 
+
 //控件显示函数
 void control_show(CONTROL_T ctr1) ;
+
+//窗口显示 
+void window_show(WINDOW_T win) ;
+
+//窗口运行 
+WINDOW_T window_run(WINDOW_T) ;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #endif
