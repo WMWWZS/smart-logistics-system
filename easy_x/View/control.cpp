@@ -3,12 +3,7 @@
 #include <conio.h>
 #include "control.h" 
 
-/*
-#define BUTTON   1 按钮 
-#define EDIT     2 编辑框 
-#define EDIT_PWD 3   
-#define LABEL    4 标签 
-*/
+
 
 //控件显示函数 
 void control_show(CONTROL_T ctr1) 
@@ -33,7 +28,7 @@ void control_show(CONTROL_T ctr1)
 	if(ctr1.type == LABEL || ctr1.type == EDIT) 
 	{
 		outtextxy(ctr1.x, ctr1.y, ctr1.text); //此处可设置xy的偏移（效果待定） 
-		
+		 
 	}
 	else if(ctr1.type == BUTTON) 
 	{
@@ -69,9 +64,9 @@ WINDOW_T window_run(WINDOW_T win)
 {
 	char ch1,ch2; 
 	int i = 0;
-	while(win.controls[i].type == LABLE) 
+	while(win.controls[i].type == LABEL) 
 	{
-		i++
+		i++;
 		if(i == win.count) 
 		{
 			i = 0; 
@@ -84,7 +79,7 @@ WINDOW_T window_run(WINDOW_T win)
 		{
 			
 		}
-		else if(ch1 >= '0' || ch1 <= '9' || ch1 >= 'a' || ch1 <= 'z' ch1 >= 'A' || ch1 <= 'Z')
+		else if(ch1 >= '0' && ch1 <= '9' || ch1 >= 'a' && ch1 <= 'z' || ch1 >= 'A' && ch1 <= 'Z')
 		{
 			
 		}
@@ -95,10 +90,13 @@ WINDOW_T window_run(WINDOW_T win)
 		else if(ch1 == -32) 
 		{
 			ch2 =  getch() ;
-			if(ch2 == KEY_UP) 
+			printf("%d\n",ch2) ;
+			if(ch2 == KEY_DOWN) 
 			{
+				//将自己的颜色改成未选中 
 				win.controls[i].state = 0;
 				control_show(win.controls[i]);
+				//移动到下一个可停留控件 （不是LABLE） 
 				do
 				{
 					i++;
@@ -107,12 +105,28 @@ WINDOW_T window_run(WINDOW_T win)
 						i = 0; 
 					}
 					
-				}while() 
-				 
+				}while(win.controls[i].type == LABEL) ;
+				//将自己的颜色改成未选中 
+				win.controls[i].state = 1;
+				control_show(win.controls[i]);				
 			}
-			else if(ch2 == KEY_DOWN) 
+			else if(ch2 == KEY_UP) 
 			{
-				
+				win.controls[i].state = 0;
+				control_show(win.controls[i]);
+				//移动到下一个可停留控件 （不是LABLE） 
+				do
+				{
+					i--;
+					if(i == -1)      
+					{
+						i = win.count;   //注意不能越界3 
+					}
+					
+				}while(win.controls[i].type == LABEL) ;
+				//将自己的颜色改成未选中 
+				win.controls[i].state = 1;
+				control_show(win.controls[i]);					
 			}
 			else if(ch2 == KEY_LEFT) 
 			{

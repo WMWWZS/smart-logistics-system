@@ -1,10 +1,16 @@
 #ifndef _CONTROL_H_ 
 #define _CONTROL_H_ 
 
-#define BUTTON   1
-#define EDIT     2
-#define EDIT_PWD 3 
-#define LABEL    4
+#define BUTTON   1 //按钮 
+#define EDIT     2 //编辑框 
+#define EDIT_PWD 3   
+#define LABEL    4 //标签 
+
+#define KEY_DOWN 80
+#define KEY_UP 72
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
+ 
 //定义控件结构体 
 typedef struct control_t 
 {

@@ -40,16 +40,13 @@ int main(int argc, char** argv) {
 //} WINDOW_T; 
 
 	WINDOW_T startWin = {290, 240 , 220 ,180, WHITE, 3,{
-	{300, 250, 200, 50, "用户名：",CYAN, LIGHTCYAN, WHITE,BUTTON, 1},
-	{300, 305, 200, 50, "密码：",CYAN, LIGHTCYAN, WHITE ,BUTTON, 0},
-	{300, 365, 200, 50, "登录",CYAN, LIGHTCYAN, WHITE, BUTTON, 0}}} ; 
+	{300, 250, 200, 50, "登录",CYAN, LIGHTCYAN, WHITE,BUTTON, 1},
+	{300, 305, 200, 50, "忘记密码",CYAN, LIGHTCYAN, WHITE ,BUTTON, 0},
+	{300, 365, 200, 50, "退出",CYAN, LIGHTCYAN, WHITE, BUTTON, 0}}} ; 
 	
 	window_show(startWin) ;
-	while(1)
-	{
-		
-	}
-	return 0;
+	
+	window_run(startWin);
 	
 }
 
