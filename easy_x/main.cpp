@@ -39,14 +39,23 @@ int main(int argc, char** argv) {
 //	int current;
 //} WINDOW_T; 
 
-	WINDOW_T startWin = {290, 240 , 220 ,180, WHITE, 3,{
-	{300, 250, 200, 50, "µÇÂ¼",CYAN, LIGHTCYAN, WHITE,BUTTON, 1},
-	{300, 305, 200, 50, "Íü¼ÇÃÜÂë",CYAN, LIGHTCYAN, WHITE ,BUTTON, 0},
-	{300, 365, 200, 50, "ÍË³ö",CYAN, LIGHTCYAN, WHITE, BUTTON, 0}}} ; 
+//	WINDOW_T startWin = {290, 240 , 220 ,180, WHITE, 3,{
+//	{300, 250, 200, 50, "µÇÂ¼",CYAN, LIGHTCYAN, WHITE,BUTTON, 1},
+//	{300, 305, 200, 50, "Íü¼ÇÃÜÂë",CYAN, LIGHTCYAN, WHITE ,BUTTON, 0},
+//	{300, 365, 200, 50, "ÍË³ö",CYAN, LIGHTCYAN, WHITE, BUTTON, 0}}} ; 
 	
-	window_show(startWin) ;
+	WINDOW_T loginWin = {240,240,290,180, WHITE, 6,{
+	{245, 250, 80, 50, "ÓÃ»§Ãû£º",CYAN, LIGHTCYAN, WHITE,LABEL, 0},  //
+	{245, 305, 80, 50, "ÃÜ Âë£º",CYAN, LIGHTCYAN, WHITE ,LABEL, 0},
+	{320, 250, 200, 50, "",CYAN, LIGHTCYAN, WHITE ,EDIT, 1} , 
+	{320, 305, 200, 50, "",CYAN, LIGHTCYAN, WHITE ,EDIT_PWD, 0},
+	{245, 360, 130,50, "µÇ Â¼",CYAN, LIGHTCYAN, WHITE ,BUTTON, 0},
+	{390,360,130,50, "·µ »Ø",CYAN, LIGHTCYAN, WHITE, BUTTON, 0}}} ;   
 	
-	window_run(startWin);
+	
+	window_show(loginWin) ;
+	
+	window_run(loginWin);
 	
 }
 
