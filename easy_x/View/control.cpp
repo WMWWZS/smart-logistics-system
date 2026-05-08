@@ -3,8 +3,6 @@
 #include <conio.h>
 #include "control.h" 
 
-
-
 //控件显示函数 
 void control_show(CONTROL_T ctr1) 
 {   //框的绘制 
@@ -27,7 +25,7 @@ void control_show(CONTROL_T ctr1)
 	
 	if(ctr1.type == LABEL || ctr1.type == EDIT) 
 	{
-		outtextxy(ctr1.x, ctr1.y, ctr1.text); //此处可设置xy的偏移（效果待定） 
+		outtextxy(ctr1.x, ctr1.y + 15, ctr1.text); //此处可设置xy的偏移（效果待定） 
 		 
 	}
 	else if(ctr1.type == BUTTON) 
@@ -36,15 +34,17 @@ void control_show(CONTROL_T ctr1)
 		int center = ctr1.x + (ctr1.width - strlen(ctr1.text) *10) / 2;
 		outtextxy(center, ctr1.y + 15, ctr1.text) ;
 	}
-	else if(ctr1.type == EDIT_PWD)	
+	else if(ctr1.type == EDIT_PWD)
 	{
-		for(i = 0; i < strlen(str); i++) 
-		{
-			str[i] = '*';
-			
-		}
+	    strcpy(str, ctr1.text);
+	    int len = strlen(str);
+	    for(i = 0; i < len; i++)
+	    {
+	        str[i] = '*';
+	    }
+	    str[len] = '\0'; 
+	    outtextxy(ctr1.x, ctr1.y + 15, str);
 	}
-	outtextxy(ctr1.x + 5, ctr1.y + 15, str)	;
 }
 
 void window_show(WINDOW_T win)
@@ -62,6 +62,8 @@ void window_show(WINDOW_T win)
 
 WINDOW_T window_run(WINDOW_T win) 
 {
+	win.controls[2].text[0] = '\0';
+	win.controls[3].text[0] = '\0';   //初始化，防止strlen崩溃 
 	char ch1,ch2; 
 	int i = 0;
 	while(win.controls[i].type == LABEL) 
@@ -81,11 +83,26 @@ WINDOW_T window_run(WINDOW_T win)
 		}
 		else if(ch1 >= '0' && ch1 <= '9' || ch1 >= 'a' && ch1 <= 'z' || ch1 >= 'A' && ch1 <= 'Z')
 		{
-			
+			printf("%d\n",ch1) ;
+			if(win.controls[i].type == EDIT || win.controls[i].type == EDIT_PWD) 
+			{
+				int len = strlen(win.controls[i].text);
+				printf("%d\n",i) ;
+				if(len < win.controls[i].maxStr)
+				{
+					win.controls[i].text[len] = ch1;
+					win.controls[i].text[len + 1] = '\0';
+					control_show(win.controls[i]) ; 
+				}				
+			}
 		}
 		else if(ch1 == '\b') 
 		{
-			
+			if(win.controls[i].type == EDIT || win.controls[i].type == EDIT_PWD) 
+			{
+				win.controls[i].text[strlen(win.controls[i].text)-1] = '\0';
+				control_show(win.controls[i]) ; 
+			}			
 		}
 		else if(ch1 == -32) 
 		{
@@ -120,7 +137,7 @@ WINDOW_T window_run(WINDOW_T win)
 					i--;
 					if(i == -1)      
 					{
-						i = win.count;   //注意不能越界3 
+						i = win.count - 1;   //注意不能越界
 					}
 					
 				}while(win.controls[i].type == LABEL) ;

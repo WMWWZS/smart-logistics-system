@@ -24,6 +24,7 @@ typedef struct control_t
 	COLORREF textCloor;  //文本颜色 
 	int type; //控件类型
 	int state;  //控件状态 
+	int maxStr;   //限制输入 
 }CONTROL_T; 
 
 typedef struct window_t 
