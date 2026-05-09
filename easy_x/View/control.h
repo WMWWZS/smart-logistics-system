@@ -10,7 +10,7 @@
 #define KEY_UP 72
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
- 
+ #include <graphics.h>
 //定义控件结构体 
 typedef struct control_t 
 {

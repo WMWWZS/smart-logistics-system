@@ -31,7 +31,7 @@ void control_show(CONTROL_T ctr1)
 	else if(ctr1.type == BUTTON) 
 	{
 		settextstyle(16, 10, _T("ºÚÌå"));
-		int center = ctr1.x + (ctr1.width - strlen(ctr1.text) *10) / 2;
+		int center = ctr1.x + (ctr1.width - strlen(ctr1.text) * 10) / 2;
 		outtextxy(center, ctr1.y + 15, ctr1.text) ;
 	}
 	else if(ctr1.type == EDIT_PWD)
@@ -77,9 +77,13 @@ WINDOW_T window_run(WINDOW_T win)
 	while(1) 
 	{
 		ch1 = getch() ; 
-		if(ch1 == '\r') 
+		if(ch1 == '\r')    //È·ÈÏenter 
 		{
-			
+			if(win.controls[i].type == BUTTON) 
+			{
+				win.current = i;  
+				return win; 
+			}
 		}
 		else if(ch1 >= '0' && ch1 <= '9' || ch1 >= 'a' && ch1 <= 'z' || ch1 >= 'A' && ch1 <= 'Z')
 		{

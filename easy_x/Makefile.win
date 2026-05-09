@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = main.o View/control.o
-LINKOBJ  = main.o View/control.o
+OBJ      = main.o View/control.o App/startWin.o App/loginWin.o App/data.o App/mainWin.o public/file.o public/list.o
+LINKOBJ  = main.o View/control.o App/startWin.o App/loginWin.o App/data.o App/mainWin.o public/file.o public/list.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -leasyx -g3
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -29,3 +29,21 @@ main.o: main.cpp
 
 View/control.o: View/control.cpp
 	$(CPP) -c View/control.cpp -o View/control.o $(CXXFLAGS)
+
+App/startWin.o: App/startWin.cpp
+	$(CPP) -c App/startWin.cpp -o App/startWin.o $(CXXFLAGS)
+
+App/loginWin.o: App/loginWin.cpp
+	$(CPP) -c App/loginWin.cpp -o App/loginWin.o $(CXXFLAGS)
+
+App/data.o: App/data.cpp
+	$(CPP) -c App/data.cpp -o App/data.o $(CXXFLAGS)
+
+App/mainWin.o: App/mainWin.cpp
+	$(CPP) -c App/mainWin.cpp -o App/mainWin.o $(CXXFLAGS)
+
+public/file.o: public/file.c
+	$(CPP) -c public/file.c -o public/file.o $(CXXFLAGS)
+
+public/list.o: public/list.c
+	$(CPP) -c public/list.c -o public/list.o $(CXXFLAGS)
