@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000001000000
-UnitCount=15
+UnitCount=17
 
 [VersionInfo]
 Major=1
@@ -194,6 +194,26 @@ BuildCmd=
 FileName=public\list.h
 CompileCpp=1
 Folder=public
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit16]
+FileName=App\adminWin.cpp
+CompileCpp=1
+Folder=App
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit17]
+FileName=App\adminWin.h
+CompileCpp=1
+Folder=App
 Compile=1
 Link=1
 Priority=1000

@@ -5,6 +5,8 @@
 #define EDIT     2 //±à¼­¿ò 
 #define EDIT_PWD 3   
 #define LABEL    4 //±êÇ© 
+#define SELECT   5
+#define SELECTED 6
 
 #define KEY_DOWN 80
 #define KEY_UP 72

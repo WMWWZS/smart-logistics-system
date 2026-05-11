@@ -8,6 +8,7 @@
 #include "App/startWin.h" 
 #include "App/mainWin.h"
 #include "App/startWin.h"
+#include "App/adminWin.h" 
 //展开后，相关的h文件不要少分号或者参数， 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
@@ -28,7 +29,7 @@ int main(int argc, char** argv) {
 	loadimage(&img, "imge/LMS.jpg", 800, 600) ;  
 	putimage(0, 0, &img) ;  
 	
-	int (*fun[10])() = {startWin, loginWin, mainWin} ;
+	int (*fun[10])() = {startWin, loginWin, mainWin, addUserWin, adminWin} ;
 	int win_id = 0; 
 	while(1)
 	{
