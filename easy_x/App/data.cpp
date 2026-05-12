@@ -24,6 +24,13 @@ LNode* user_data_init(FILE* user_fp)
 		insertAtTail(userList, p); //添加进链表 
 		list_write_file(user_fp,sizeof(USER_T),userList); //写入文件 
 	}
+	else
+	{
+		USER_T* p;
+		p = (USER_T*)malloc(sizeof(USER_T));
+		memset(p, 0, sizeof(USER_T)) ;	
+		file_read_list(user_fp,sizeof(USER_T),userList) ;	
+	} 
 	return userList; 
 }
 

@@ -26,8 +26,7 @@ int loginWin()
 		int i = 0; 
 		int flag = 0;  
 		//±éÀúÁ´±í 
-		int c = getListNodeCount(userList);
-		printf("%d", c) ;
+		
 		for(i = 0; i < getListNodeCount(userList); i++)   
 		{
 			USER_T* p = (USER_T*)findNode(userList, i) ;

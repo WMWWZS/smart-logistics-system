@@ -91,26 +91,20 @@ void file_upDate(FILE *fp, int size, void *data, int index)
     fflush(fp);
 }
 
-void file_read_list(FILE*fp,int size,void* head)
+void file_read_list(FILE* fp, int size, void* head)
 {
-//	void* data;
-//	temp=malloc(size);
-//	memset(data,0,size);
-    void* data = malloc(size);
-    void* temp = NULL;  // 临时指针，用于释放内存
-    rewind(fp); //先前指针没有复位，导致循环直接跳过 
-	while(fread(data,size,1,fp)>0)
-	{
-//		insertAtTail(head,data);
-//		data=malloc(size);
-//		memset(data,0,size);
+    rewind(fp); // 文件指针回到开头
+    while (1)
+    {
+        // 每次读取都新建节点内存
+        void* data = malloc(size);
+        if (fread(data, size, 1, fp) != 1)
+        {
+            free(data);
+            break;
+        }
         insertAtTail((LNode*)head, data);
-        temp = data;    // 保存当前内存地址
-        data = malloc(size);  // 重新分配内存
-        memset(data, 0, size);
-        free(temp);  
-	}
-	free(data);  //链表尾巴就是NULL  
+    }
 }
 
 void list_write_file(FILE* fp,int size,LNode* head) 
