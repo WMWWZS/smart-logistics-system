@@ -91,6 +91,23 @@ void file_upDate(FILE *fp, int size, void *data, int index)
     fflush(fp);
 }
 
+//void file_read_list(FILE*fp,int size,void* head) 原始错误 
+//{
+//
+//    void* data = malloc(size);
+//    void* temp = NULL;  // 临时指针，用于释放内存
+//    rewind(fp); //先前指针没有复位，导致循环直接跳过 
+//	while(fread(data,size,1,fp)>0)
+//	{
+//        insertAtTail((LNode*)head, data);
+//        temp = data;    // 保存当前内存地址
+//        data = malloc(size);  // 重新分配内存
+//        memset(data, 0, size);
+//        free(temp);  
+//	}
+//	free(data);  //链表尾巴就是NULL  
+//}
+
 void file_read_list(FILE* fp, int size, void* head)
 {
     rewind(fp); // 文件指针回到开头

@@ -38,14 +38,14 @@ int loginWin()
 				flag = 1; 
 				return 2; 
 			}
-			if(flag == 0) 
-			{
-				CONTROL_T ctl= {245, 360, 150, 70, "µÇÂ¼Ê§°Ü",CYAN, LIGHTCYAN, WHITE,BUTTON, 0, 0 };
-				control_show(ctl);	
-				Sleep(2000) ;
-				return 1; 		
-			}
-		}	
+		}
+		if(flag == 0) 
+		{
+			CONTROL_T ctl= {245, 360, 150, 70, "µÇÂ¼Ê§°Ü",CYAN, LIGHTCYAN, WHITE,BUTTON, 0, 0 };
+			control_show(ctl);	
+			Sleep(2000) ;
+			return 1; 		
+		}			
 	}
 	else if(loginWin.current == 5) 
 	{

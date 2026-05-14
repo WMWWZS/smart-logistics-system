@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 	loadimage(&img, "imge/LMS.jpg", 800, 600) ;  
 	putimage(0, 0, &img) ;  
 	
-	int (*fun[10])() = {startWin, loginWin, mainWin, addUserWin, adminWin} ;
+	int (*fun[10])() = {startWin, loginWin, mainWin, adminWin,addUserWin ,selectUserWin} ;
 	int win_id = 0; 
 	while(1)
 	{
