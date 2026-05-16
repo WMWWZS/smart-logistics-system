@@ -101,17 +101,14 @@ void* findNode(LNode* head, int position)   //´Ó0¿ªÊ¼
 }
 void freeList(LNode* head)
 {
-	LNode* p=head;
-	while(head!=NULL) 
-	{
-		LNode* tmp=p;
-		p=p->next;
-		if(tmp->next!=NULL)
-		{
-			free(tmp->data);
-			free(tmp); 
-		} 
-	}
+    LNode* p = head;
+    while(p != NULL)
+    {
+        LNode* tmp = p;
+        p = p->next;
+        free(tmp->data);
+        free(tmp);
+    }
 }
 int getListNodeCount(LNode* head)
 {

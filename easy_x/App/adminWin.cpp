@@ -134,34 +134,36 @@ int selectUserWin()
 {
 	WINDOW_T selectUserWin={200,200,450,250,WHITE,3,{
 	    {205,205,120,50,"用户名搜索：",WHITE,WHITE,CYAN,LABEL,0,0},    //0
-	    {325,205,160,50,"",CYAN,LIGHTCYAN,WHITE,EDIT,1,20},            //1 补齐最大长度20
+	    {325,205,160,50,"",CYAN,LIGHTCYAN,WHITE,EDIT,1,20},            //1 最大长度20
 	    {490,205,130,50,"查询",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0},       //2
 	}};
 	window_show(selectUserWin);
 	
 	//加载数据到表格
-	int pageNow=1;//当前第几页
+	static int pageNow=1;//当前第几页
 	int pageNum; //共几页
 	int pageCount=3;//每页显示3条数据
-	int count=0;
+	int count=0; 
 	//显示表格
+	static LNode* tempList= initList();
 	static char buf[20]={0};
 	char roles[5][20]={"","管理员","仓管员","调度员","客服"};
 	char states[2][10]={"不可用","可用"};
 	TABLE_T table={220,270,400,140,4,4,{"ID","姓名","角色","状态"}};
 	int start=0;
 	USER_T* p;
-	//1、全部查询
+	//1全部查询
 	if(strlen(buf)==0)
 	{
 		int i=0;
 		int j=0;
 	    count=getListNodeCount(userList);//获取总用户数
-	    pageNum=count%pageCount==0?count/pageCount:count/pageCount+1;//计算总页
+	    int pageCount=3;
+	    pageNum=count%pageCount==0?count/pageCount:count/pageCount+1;
 	    start=(pageNow-1)*pageCount;//计算当前页开始是第几个节点
 	    // 清空data
 		memset(table.data,0,sizeof(table.data));
-	    for(i=0;i<3;i++)
+	    for(i=0;i<count;i++)
 		{
 			if(start+i>=count) 
 			{
@@ -176,30 +178,96 @@ int selectUserWin()
 	    }
 	}
 	else
-	{ //2、条件查询
+	{
+	    int i=0,j=0;
+	    int pageCount=3;
 	
+	    //分ye：用临时链表的数量
+	    count = getListNodeCount(tempList);
+	    pageNum = (count + pageCount - 1) / pageCount;
+	    start = (pageNow - 1)*pageCount;
+	
+	    memset(table.data,0,sizeof(table.data));
+	    for(i=0;i<pageCount;i++)
+	    {
+	        if(start+i >= count) break;
+	        USER_T *t = (USER_T *)findNode(tempList, start+i);
+	        j=0;
+	        strcpy(table.data[i][j++], t->ID);
+	        strcpy(table.data[i][j++], t->name);
+	        strcpy(table.data[i][j++], roles[t->role]);
+	        strcpy(table.data[i][j++], states[t->state]);
+	    }
 	}
 	table_show(table, pageNow, pageNum);
-	
 	selectUserWin=window_run(selectUserWin);
 	
-	//查询
 	if(selectUserWin.current==2)
 	{
-	    strcpy(buf,selectUserWin.controls[1].text);
+	    if(strlen(selectUserWin.controls[1].text)>0)
+		{
+	        strcpy(buf,selectUserWin.controls[1].text);
+	        if(tempList != NULL)
+	        {
+	        	freeList(tempList);	
+			}
+	        tempList=initList();
+	
+	        int allCount = getListNodeCount(userList);
+	        for(int k=0;k<allCount;k++)
+			{
+	            USER_T *t = (USER_T *)findNode(userList, k);
+	            if(t == NULL) 
+				continue;
+	
+	            if(strstr(t->name, buf) != NULL)
+				{
+	                insertAtTail(tempList, t);
+	            }
+	        }
+	        pageNow=1;
+	    }
+	    else
+		{
+	        memset(buf,0,sizeof(buf));
+	        pageNow=1;
+	    }
 	    return 5;
 	}
 	//向上翻页
 	else if(selectUserWin.current==-1)
 	{
 	    if(pageNow > 1)
-	        pageNow--;
-	}
+	    {
+	        pageNow--;	
+		}
+	    else
+	    {
+	    	//弹窗
+	        CONTROL_T miniWin={245,300,200,80,"已经是第一页",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+	        control_show(miniWin);
+	        //延时
+	        Sleep(1500);
+		}
+		return 5;
+	}	
 	//向下翻页
 	else if(selectUserWin.current==-2)
 	{
-	    if(pageNow < pageNum)
+	    if(pageNow<pageNum)
+		{
 	        pageNow++;
+	    }
+	    else
+		{
+	        //弹窗
+	        CONTROL_T miniWin={245,300,200,80,"已经是最后一页",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+	        control_show(miniWin);
+	        //延时
+	        Sleep(1500);
+	    }
+	    return 5; 
 	}
+	 
 } 
 

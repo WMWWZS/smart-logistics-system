@@ -61,7 +61,6 @@ void window_show(WINDOW_T win)
 	//显示窗口背景颜色 
 	setfillcolor (win.bgColor);
 	fillrectangle (win.x, win.y, win.width + win.x, win.y + win.hight ) ;
-	
 	for(i = 0; i < win.count ; i++) 
 	{
 		control_show(win.controls[i]);
@@ -70,8 +69,8 @@ void window_show(WINDOW_T win)
 
 WINDOW_T window_run(WINDOW_T win) 
 {
-	win.controls[2].text[0] = '\0';      //用户 
-	win.controls[3].text[0] = '\0';   //密码 
+//	win.controls[2].text[0] = '\0';      //用户 
+//	win.controls[3].text[0] = '\0';   //密码 
 	char ch1,ch2; 
 	int i = 0;
 	while(win.controls[i].type == LABEL) 
@@ -213,7 +212,7 @@ WINDOW_T window_run(WINDOW_T win)
 	           	win.controls[i].type, win.controls[i].text, win.controls[i].x,win.controls[i].y);				
 				//将自己的颜色改成未选中 
 				win.controls[i].state = 1;
-				control_show(win.controls[i]);
+//				control_show(win.controls[i]);  //！！！！！！！！！！ 
 				window_show(win);				
 			}
 			else if(ch2 == KEY_UP) 
@@ -234,16 +233,18 @@ WINDOW_T window_run(WINDOW_T win)
 				printf("正在绘制控件: 类型=%d, 文本=%s, 坐标=(%d,%d)\n", 
 	           	win.controls[i].type, win.controls[i].text, win.controls[i].x,win.controls[i].y);
 				win.controls[i].state = 1;
-				control_show(win.controls[i]);	
+//				control_show(win.controls[i]);	
 				window_show(win);				
 			}
 			else if(ch2 == KEY_LEFT) 
 			{
-				
+				win.current = -1;
+				return win;
 			}
 			else if(ch2 == KEY_RIGHT) 
 			{
-				
+				win.current = -2;
+				return win;				
 			}
 		}
 	}
