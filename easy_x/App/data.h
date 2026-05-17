@@ -25,7 +25,7 @@ typedef struct ORDER_T
     struct ORDER_T *next;
 }ORDER_T;
 
-
+extern FILE* order_fp;
 extern LNode* userList;
 extern FILE* user_fp;
 

@@ -33,7 +33,7 @@ int mainWin()   //登录成功后页面
 	}
 	else if(win.current==3)
 	{
-	    return 1;       
+	    return 9;       
 	}
 	else if(win.current==4)
 	{

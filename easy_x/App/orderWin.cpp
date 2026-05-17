@@ -1,3 +1,4 @@
+
 int orderWin()
 {
     WINDOW_T win={290,155,220,330,WHITE,5,{
@@ -36,3 +37,24 @@ int orderWin()
         return 2; //返回主菜单
     }
     return 6;
+ 
+int createOrder()  //单号生成 信息输入 
+{
+	
+}     
+  
+int orderAudit() //驳回 通过 
+{
+	
+}     
+    
+int orderSerch()  //订单查询  修改    订单查询包括:分页 精确 模糊 
+{
+	
+}
+
+int orderTracking()    //没思路 
+{
+	
+}
+

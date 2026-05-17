@@ -89,7 +89,7 @@ int addUserWin()
 	        return 3;
 	    }
 	
-	    // 4. 不重名，正常创建用户（你原来的代码）
+	    // 4. 不重名，正常创建用户
 	    USER_T *p = (USER_T *)malloc(sizeof(USER_T));
 	    memset(p, 0, sizeof(USER_T));
 	

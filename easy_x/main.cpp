@@ -9,15 +9,18 @@
 #include "App/mainWin.h"
 #include "App/startWin.h"
 #include "App/adminWin.h" 
-//展开后，相关的h文件不要少分号或者参数， 
+//展开后，相关的h文件不要少分号或者参数， 一般头文件应该在cpp中 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
-LNode* userList = NULL;
+LNode* userList = NULL;  //用户链表：用于保存file中用户信息 
 FILE* user_fp = NULL; 
+FILE* order_fp = NULL; 
 
 int main(int argc, char** argv) {
+	
 	//1.打开文件 
 	user_fp = file_open("data/user.txt");
+	
 	//2.初始化用户链表 
 	userList = user_data_init(user_fp); 
 	
@@ -29,14 +32,13 @@ int main(int argc, char** argv) {
 	loadimage(&img, "imge/LMS.jpg", 800, 600) ;  
 	putimage(0, 0, &img) ;  
 	
-	int (*fun[10])() = {startWin,loginWin,mainWin,adminWin,addUserWin,selectUserWin,carWin,orderWin,storeWin};
-	int win_id = 0; 
-	while(1)
-	{
+	//它的格式是返回值 (*fun[nums])(参数) 
+	int (*fun[10])() = {startWin,loginWin,mainWin,adminWin,addUserWin,selectUserWin,carWin,orderWin,storeWin,};   //startWin进入 由loginWin验证 mainWin展开 ： 
+	int win_id = 0; 																						//顺序是： 1.odrderWin 2.storeWin 3.RunWin 4.*统计分析   
+	while(1)																					//5.*客服服务（考虑接入大模型，当前无实质作用(不知到AI能不能读取到链表或者文件信息)） 6.*密码修改  7.*密码修改 
+	{																								
 		win_id = fun[win_id]() ;
 	}
-	
-	
 	
 	//3.绘制按钮
 //	CONTROL_T lab1 = {200, 200, 100, 50, "用户名：",WHITE, WHITE, CYAN ,LABEL, 0} ;
