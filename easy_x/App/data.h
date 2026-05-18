@@ -21,13 +21,14 @@ typedef struct ORDER_T
     char goodsName[50];
     int num;
     int auditFlag;   //0´ýÉóºË 1Í¨¹ý 2²µ»Ø
-    char backMsg[50];
+    char backState[50];
     struct ORDER_T *next;
 }ORDER_T;
 
 extern FILE* order_fp;
 extern LNode* userList;
 extern FILE* user_fp;
+extern LNode* orderList;
 
 LNode* user_data_init(FILE* user_fp);
 

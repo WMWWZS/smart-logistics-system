@@ -67,7 +67,7 @@ WINDOW_T window_run(WINDOW_T) ;
 void table_show(TABLE_T table,int pageNum,int pageNow); 
 
 //±³¾° 
-void bground() ; 
+void Background_display();
 
 
 #endif

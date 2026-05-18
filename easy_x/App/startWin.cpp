@@ -7,6 +7,9 @@ int startWin()
 	{300, 250, 200, 50, "µÇ Â¼",CYAN, LIGHTCYAN, WHITE,BUTTON, 1,0},
 	{300, 305, 200, 50, "Íü¼ÇÃÜÂë",CYAN, LIGHTCYAN, WHITE ,BUTTON, 0,0},
 	{300, 365, 200, 50, "ÍË³ö",CYAN, LIGHTCYAN, WHITE, BUTTON, 0,0}}} ; 
+	
+	Background_display();
+	
 	window_show(startWin) ;
 	startWin = window_run(startWin);
 	if(startWin.current = 0)

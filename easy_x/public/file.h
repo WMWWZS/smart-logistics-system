@@ -2,6 +2,7 @@
 #define _FILE_H_
 #include <stdio.h>
 #include "list.h"
+#include "../App/data.h"
 /*函数名：file_open 
 函数功能：打开指定文件并获取文件指针 
 参数：fp：文件路径 
@@ -65,8 +66,8 @@ void file_read_list(FILE*fp,int size,void* head);
 
 void list_write_file(FILE* fp,int size,LNode* head);
 
-
-
+LNode* order_data_init(FILE* fp); 
+void order_add(ORDER_T order); 
 
 
 

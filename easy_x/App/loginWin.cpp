@@ -25,8 +25,8 @@ int loginWin()
 		strcpy(pwd, loginWin.controls[3].text) ;
 		int i = 0; 
 		int flag = 0;  
-		//遍历链表 
 		
+		//遍历链表 
 		for(i = 0; i < getListNodeCount(userList); i++)   
 		{
 			USER_T* p = (USER_T*)findNode(userList, i) ;

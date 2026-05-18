@@ -148,5 +148,18 @@ void dsl_write_list(FILE* fp,int size,LNode* head)
 	}
 }
 
+LNode* order_data_init(FILE* fp)
+{
+    LNode* head = initList();        
+    file_read_list(fp, sizeof(ORDER_T), head); 
+    return head;
+}
+
+void order_add(ORDER_T order,LNode* orderList)
+{
+    insertAtTail(orderList, &order); 
+    list_write_file(order_fp, sizeof(ORDER_T), orderList); 
+}
+
 
 

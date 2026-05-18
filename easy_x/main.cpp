@@ -9,10 +9,19 @@
 #include "App/mainWin.h"
 #include "App/startWin.h"
 #include "App/adminWin.h" 
+#include "App/orderWin.h" 
+#include "App/storeWin.h"
+#include "App/RunWin.h"
+#include "App/storeWin.h"
+#include "App/changePasswordWin.h" 
+#include "App/serviceWin.h" 
+#include "App/analysisWin.h"
+//所有的控件运行都依赖Windows_show运行 
 //展开后，相关的h文件不要少分号或者参数， 一般头文件应该在cpp中 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
+ 
 LNode* userList = NULL;  //用户链表：用于保存file中用户信息 
+LNode* orderList = NULL; 
 FILE* user_fp = NULL; 
 FILE* order_fp = NULL; 
 
@@ -20,9 +29,11 @@ int main(int argc, char** argv) {
 	
 	//1.打开文件 
 	user_fp = file_open("data/user.txt");
+	order_fp = file_open("data/order.txt") ;
 	
 	//2.初始化用户链表 
 	userList = user_data_init(user_fp); 
+	orderList = initList(); 
 	
 	//1.创建绘图窗口 
 	initgraph(800, 600) ;	
@@ -31,9 +42,14 @@ int main(int argc, char** argv) {
 	IMAGE img;   
 	loadimage(&img, "imge/LMS.jpg", 800, 600) ;  
 	putimage(0, 0, &img) ;  
-	
-	//它的格式是返回值 (*fun[nums])(参数) 
-	int (*fun[10])() = {startWin,loginWin,mainWin,adminWin,addUserWin,selectUserWin,carWin,orderWin,storeWin,};   //startWin进入 由loginWin验证 mainWin展开 ： 
+	//它的格式是返回值 (*fun[nums])(参数) :函数名本身就是地址，代表函数代码在内存里的起始位置
+	int (*fun[20])() = {startWin,loginWin,mainWin,           //0 1 2
+	adminWin,addUserWin,selectUserWin,   // 3 4 5
+	orderWin,orderCreate,orderAudit,orderSerch,orderTracking,  //订单区块6 7 8 9 10
+	storeWin,goodIn,goodOut,goodSeach,  // //货物区块 11 12 13 14	
+	changePasswordWin,  //  15 密码修改区块	
+	serviceWin,  //16 智能客服 
+	analysisWin};   //   17  统计分析				         //startWin进入 由loginWin验证 mainWin展开 ： 
 	int win_id = 0; 																						//顺序是： 1.odrderWin 2.storeWin 3.RunWin 4.*统计分析   
 	while(1)																					//5.*客服服务（考虑接入大模型，当前无实质作用(不知到AI能不能读取到链表或者文件信息)） 6.*密码修改  7.*密码修改 
 	{																								

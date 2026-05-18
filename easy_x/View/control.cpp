@@ -69,8 +69,6 @@ void window_show(WINDOW_T win)
 
 WINDOW_T window_run(WINDOW_T win) 
 {
-//	win.controls[2].text[0] = '\0';      //ÓÃ»§ 
-//	win.controls[3].text[0] = '\0';   //ÃÜÂë 
 	char ch1,ch2; 
 	int i = 0;
 	while(win.controls[i].type == LABEL) 
@@ -156,14 +154,14 @@ WINDOW_T window_run(WINDOW_T win)
 		
 		    char selText[20]={0};
 		    strcpy(selText, selectWin.controls[selectWin.current].text);
-		    bground();
+		    Background_display();
 		    window_show(win);
 		
 		    i = 6;
 		    win.controls[5].state = 0;
 		    win.controls[6].state = 1;
 		
-		    bground();
+		    Background_display();
 		    window_show(win);
 		}
 		else if(ch1 >= '0' && ch1 <= '9' || ch1 >= 'a' && ch1 <= 'z' || ch1 >= 'A' && ch1 <= 'Z')
@@ -251,7 +249,7 @@ WINDOW_T window_run(WINDOW_T win)
 	
 }
 
-void bground() 
+void Background_display()
 {
 	IMAGE img;
 	loadimage(&img, "./imge/LMS.jpg",800,600);

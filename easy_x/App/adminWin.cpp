@@ -54,12 +54,9 @@ int addUserWin()
         {245,415,130,50,"创建",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0},//6
         {390,415,130,50,"返回",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0},//7
     }};
-	IMAGE img;
-	loadimage(&img, "./imge/LMS.jpg",800,600);
-	putimage(0, 0, &img);  
-	setbkmode(TRANSPARENT);
-	settextcolor(CYAN);
-	outtextxy(200,530,"操作说明：上下键移动切换菜单，按下回车键选择菜单");
+    
+	Background_display();
+	
 	window_show(addUserWin);
 	addUserWin=window_run(addUserWin);
 	if(addUserWin.current==6)
@@ -82,7 +79,7 @@ int addUserWin()
 		//重名 
 	    if(isRepeat == 1)
 	    {
-	        bground();
+	        Background_display();
 	        CONTROL_T tip={245,300,220,70,"用户名已存在，无法创建",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0};
 	        control_show(tip);
 	        Sleep(1500);

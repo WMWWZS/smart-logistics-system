@@ -11,44 +11,41 @@ int mainWin()   //登录成功后页面
         {300,400,200,40,"7.密码修改",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //6
         {300,440,200,40,"8.返回上级",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},   //7
     }};
-	IMAGE img; 
-	loadimage(&img, "./imge/LMS.jpg",800,600);
-	putimage(0, 0, &img);
-	setbkmode(TRANSPARENT);
-	settextcolor(CYAN);
-	outtextxy(200,530,"操作说明：上下键移动切换菜单，按下回车键选择菜单");
+    
+	Background_display();
+	
 	window_show(win); 
 	win = window_run(win); 
 	if(win.current == 0)     //想象到了switch，AI通过分析汇编说小型分支if和switch性能几乎无差别，但是大量（上百个）分支， 
 	{									//但是大量（上百个）分支，switch会更快，后续有待进行重构,这里有个思路，后面试试实现一下 5.16
 	    return 3;   //adminWin界面 
 	}
-	else if(win.current==1)
+	else if(win.current==1)  
 	{
-	    return 7;       
+	    return 6;       //订单管理界面 
 	}
 	else if(win.current==2)
 	{
-	    return 8;
+	    return 11;   //仓储管理界面 
 	}
 	else if(win.current==3)
 	{
-	    return 9;       
+	    return 9;        //运输管理界面 
 	}
 	else if(win.current==4)
 	{
-	    return 3;
+	    return 3;  //统计分析界面 
 	}
 	else if(win.current==5)
 	{
-	    return 1;       
+	    return 16;      //客服服务界面 
 	}
 	else if(win.current==6)
 	{
-	    return 3;
+	    return 15;    //密码修改界面
 	}
 	else if(win.current==7)
 	{
-	    return 1;       
+	    return 1;       //返回上级 
 	}   
 }
