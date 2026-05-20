@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000001000000
-UnitCount=25
+UnitCount=27
 
 [VersionInfo]
 Major=1
@@ -240,18 +240,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit22]
-FileName=App\RunWin.cpp
-CompileCpp=1
-Folder=App
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
 [Unit23]
-FileName=RunWin.h
+FileName=App\changePasswordWin.h
 CompileCpp=1
 Folder=App
 Compile=1
@@ -280,7 +270,37 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+[Unit25]
+FileName=App\analysisWin.h
+CompileCpp=1
+Folder=App
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
 [Unit24]
+FileName=App\analysisWin.cpp
+CompileCpp=1
+Folder=App
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit26]
+FileName=App\CustomerServiceWin.cpp
+CompileCpp=1
+Folder=App
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit22]
 FileName=App\changePasswordWin.cpp
 CompileCpp=1
 Folder=App
@@ -290,8 +310,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit25]
-FileName=changePasswordWin.h
+[Unit27]
+FileName=App\CustomerServiceWin.h
 CompileCpp=1
 Folder=App
 Compile=1

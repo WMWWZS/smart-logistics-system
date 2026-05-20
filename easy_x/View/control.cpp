@@ -299,20 +299,3 @@ void table_show(TABLE_T table,int pageNum,int pageNow)
 	sprintf(str,"<-上页    共%d页/当前第%d页    ->下页",pageNum,pageNow);
 	outtextxy(table.x+50,table.y+table.height+5,str);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

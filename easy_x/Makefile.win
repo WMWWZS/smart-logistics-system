@@ -4,9 +4,9 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = main.o View/control.o App/startWin.o App/loginWin.o App/data.o App/mainWin.o public/file.o public/list.o App/adminWin.o App/orderWin.o App/storeWin.o App/RunWin.o App/changePasswordWin.o App/serviceWin.o App/analysisWin.o
-LINKOBJ  = main.o View/control.o App/startWin.o App/loginWin.o App/data.o App/mainWin.o public/file.o public/list.o App/adminWin.o App/orderWin.o App/storeWin.o App/RunWin.o App/changePasswordWin.o App/serviceWin.o App/analysisWin.o
-LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -leasyx -g3
+OBJ      = main.o View/control.o App/startWin.o App/loginWin.o App/data.o App/mainWin.o public/file.o public/list.o App/adminWin.o App/orderWin.o App/storeWin.o App/changePasswordWin.o App/analysisWin.o App/CustomerServiceWin.o
+LINKOBJ  = main.o View/control.o App/startWin.o App/loginWin.o App/data.o App/mainWin.o public/file.o public/list.o App/adminWin.o App/orderWin.o App/storeWin.o App/changePasswordWin.o App/analysisWin.o App/CustomerServiceWin.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -leasyx -lwininet -g3
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
 BIN      = LMS.exe
@@ -57,14 +57,11 @@ App/orderWin.o: App/orderWin.cpp
 App/storeWin.o: App/storeWin.cpp
 	$(CPP) -c App/storeWin.cpp -o App/storeWin.o $(CXXFLAGS)
 
-App/RunWin.o: App/RunWin.cpp
-	$(CPP) -c App/RunWin.cpp -o App/RunWin.o $(CXXFLAGS)
-
 App/changePasswordWin.o: App/changePasswordWin.cpp
 	$(CPP) -c App/changePasswordWin.cpp -o App/changePasswordWin.o $(CXXFLAGS)
 
-App/serviceWin.o: App/serviceWin.cpp
-	$(CPP) -c App/serviceWin.cpp -o App/serviceWin.o $(CXXFLAGS)
-
 App/analysisWin.o: App/analysisWin.cpp
 	$(CPP) -c App/analysisWin.cpp -o App/analysisWin.o $(CXXFLAGS)
+
+App/CustomerServiceWin.o: App/CustomerServiceWin.cpp
+	$(CPP) -c App/CustomerServiceWin.cpp -o App/CustomerServiceWin.o $(CXXFLAGS)

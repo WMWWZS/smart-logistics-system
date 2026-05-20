@@ -18,7 +18,7 @@ int goodSeach()
 	
 }
 
-int storeWin()  //进入前的条件是你是仓储员或者管理员 
+int storeWin()   
 {
     WINDOW_T win={290,155,220,330,WHITE,4,{
         {300,160,200,40,"1.货物入库",LIGHTCYAN,CYAN,WHITE,BUTTON,1,0},    //0

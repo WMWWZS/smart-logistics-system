@@ -37,7 +37,7 @@ typedef struct window_t
 	int hight;
 	COLORREF bgColor;
 	int count;
-	CONTROL_T controls[10] ;
+	CONTROL_T controls[30] ;
 	int current;
 } WINDOW_T; 
 

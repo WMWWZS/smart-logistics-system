@@ -129,10 +129,11 @@ int addUserWin()
 
 int selectUserWin()
 {
-	WINDOW_T selectUserWin={200,200,450,250,WHITE,3,{
+	WINDOW_T selectUserWin={200,200,450,250,WHITE,4,{
 	    {205,205,120,50,"用户名搜索：",WHITE,WHITE,CYAN,LABEL,0,0},    //0
 	    {325,205,160,50,"",CYAN,LIGHTCYAN,WHITE,EDIT,1,20},            //1 最大长度20
-	    {490,205,130,50,"查询",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0},       //2
+	    {490,205,130,50,"查询",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0},    //2
+		{205,265,130,50,"返回",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0},       //3
 	}};
 	window_show(selectUserWin);
 	
@@ -146,7 +147,7 @@ int selectUserWin()
 	static char buf[20]={0};
 	char roles[5][20]={"","管理员","仓管员","调度员","客服"};
 	char states[2][10]={"不可用","可用"};
-	TABLE_T table={220,270,400,140,4,4,{"ID","姓名","角色","状态"}};
+	TABLE_T table={200, 180, 400,220,3,4,{"ID","姓名","角色","状态"}};
 	int start=0;
 	USER_T* p;
 	//1全部查询
@@ -264,6 +265,10 @@ int selectUserWin()
 	        Sleep(1500);
 	    }
 	    return 5; 
+	}
+	if(selectUserWin.current==3)
+	{
+		return 3;
 	}
 	 
 } 

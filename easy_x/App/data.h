@@ -13,17 +13,24 @@ typedef struct user_t
     int state;  // 0.不可用 1.可用
 } USER_T;
 
-//订单结构体
-typedef struct ORDER_T
+// 订单状态：0待审核 1待出库 2已驳回 3运输中 4已送达 5已完成
+typedef struct 
 {
-    char orderId[20];
-    char userName[20];
-    char goodsName[50];
-    int num;
-    int auditFlag;   //0待审核 1通过 2驳回
-    char backState[50];
-    struct ORDER_T *next;
-}ORDER_T;
+    char orderId[25];       // WL+年月日+6位序号
+    char cusName[20];       // 客户姓名
+    char cusPhone[15];      // 联系电话
+    char cusAddr[60];       // 收货地址
+    char sendAddr[60];      // 发货地址
+    char goodsName[20];     // 货物名称
+    char goodsType[20];     // 货物类型
+    float goodsWeight;      // 重量
+    int goodsNum;           // 数量
+    float goodsVolume;      // 体积
+    char expectTime[20];    // 期望送达
+    int orderStatus;        // 订单状态
+    char rejectReason[60];  // 驳回原因
+    char trackInfo[200];    // 跟踪信息
+} ORDER_T;      
 
 extern FILE* order_fp;
 extern LNode* userList;

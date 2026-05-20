@@ -11,8 +11,8 @@ int loginWin()
 	{245, 305, 80, 50, "密 码：",CYAN, LIGHTCYAN, WHITE ,LABEL, 0, 0 },
 	{320, 250, 200, 50, "",CYAN, LIGHTCYAN, WHITE ,EDIT, 1, 8} ,     //2用户名  
 	{320, 305, 200, 50, "",CYAN, LIGHTCYAN, WHITE ,EDIT_PWD, 0, 12},  //3密码 
-	{245, 360, 130,50, "登 录",CYAN, LIGHTCYAN, WHITE ,BUTTON, 0, 0},
-	{390,360,130,50, "返 回",CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0}}} ;   
+	{245, 360, 130,50, "登 录",LIGHTCYAN,CYAN,WHITE,BUTTON, 0, 0},
+	{390,360,130,50, "返 回",LIGHTCYAN,CYAN,WHITE,BUTTON, 0, 0}}} ;   
 	
 	window_show(loginWin) ;
 	loginWin = window_run(loginWin);

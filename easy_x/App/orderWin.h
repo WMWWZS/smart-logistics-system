@@ -1,8 +1,8 @@
 #ifndef _ORDERWIN_H_
 #define _ORDERWIN_H_
-int orderCreate();
-int orderAudit(); 
+int createOrderWin();
+int checkOrderWin(); 
 int orderSerch();
-int orderTracking();
+int trackOrderWin();
 int orderWin();
 #endif
