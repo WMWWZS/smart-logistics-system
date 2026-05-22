@@ -3,14 +3,279 @@
 #include "../View/control.h"
 #include <string.h>
 #include <windows.h>
+#include <time.h> 
 int goodIn()
 {
-	
+    static int pageNow = 1;
+    int pageNum;
+    const int pageCount = 3;
+    int count = 0;
+    ORDER_T* p;
+
+    // 入库窗口（只显示"待审核"的订单）
+    WINDOW_T win = {
+        0, 100, 850, 450, WHITE, 4,
+        {
+            {50, 120, 120, 40, "订单号：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {180, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 40}, // 订单号输入框
+            {400, 120, 120, 40, "货位编号：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {530, 120, 150, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 10}, // 货位编号输入框
+            {350, 200, 120, 40, "确认入库", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},
+            {500, 200, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},
+        }
+    };
+
+    TABLE_T orderTable = {
+        0, 180, 850, 220,
+        3, 6,
+        {"订单号", "客户姓名", "货物名", "数量", "状态", "期望时间"}
+    };
+
+    // 只显示状态为"已通过"的订单
+    memset(orderTable.data, 0, sizeof(orderTable.data));
+    count = getListNodeCount(orderList);
+    pageNum = (count + pageCount - 1) / pageCount;
+    int start = (pageNow - 1) * pageCount;
+
+    for(int i=0; i<pageCount; i++)
+    {
+        if(start + i >= count) break;
+        p = (ORDER_T*)findNode(orderList, start + i);
+        if(p == NULL || p->orderStatus != 1) continue; // 只显示已通过的订单
+
+        int j=0;
+        strcpy(orderTable.data[i][j++], p->orderId);
+        strcpy(orderTable.data[i][j++], p->cusName);
+        strcpy(orderTable.data[i][j++], p->goodsName);
+        sprintf(orderTable.data[i][j++], "%d", p->goodsNum);
+        strcpy(orderTable.data[i][j++], "已通过");
+        strcpy(orderTable.data[i][j++], p->expectTime);
+    }
+
+    Background_display();
+    window_show(win);
+    table_show(orderTable, pageNum, pageNow);
+    win = window_run(win);
+
+    // 确认入库按钮
+    if(win.current == 0)
+    {
+        char orderId[25], storageLoc[10];
+        strcpy(orderId, win.controls[1].text);
+        strcpy(storageLoc, win.controls[3].text);
+
+        // 找到对应订单
+        ORDER_T* targetOrder = NULL;
+        LNode* cur = orderList->next;
+        while(cur != NULL)
+        {
+            ORDER_T* ord = (ORDER_T*)cur->data;
+            if(strcmp(ord->orderId, orderId) == 0 && ord->orderStatus == 1)
+            {
+                targetOrder = ord;
+                break;
+            }
+            cur = cur->next;
+        }
+
+        if(targetOrder == NULL)
+        {
+            CONTROL_T errWin={245,300,200,80,"订单不存在或状态不符",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+            control_show(errWin);
+            Sleep(1500);
+            return goodIn();
+        }
+
+        // 1. 更新订单状态为"待运输"
+        targetOrder->orderStatus = 3;
+
+        // 2. 创建货物信息，写入文件和链表
+        GOODS_T* goods = (GOODS_T*)malloc(sizeof(GOODS_T));
+        memset(goods, 0, sizeof(GOODS_T));
+
+        // 生成货物ID（订单号+序号）
+        sprintf(goods->goodsId, "G%s", targetOrder->orderId);
+        strcpy(goods->orderId, targetOrder->orderId);
+        strcpy(goods->goodsName, targetOrder->goodsName);
+        strcpy(goods->goodsType, targetOrder->goodsType);
+        goods->goodsWeight = targetOrder->goodsWeight;
+        goods->goodsNum = targetOrder->goodsNum;
+        strcpy(goods->storageLoc, storageLoc);
+
+        // 获取当前时间作为入库时间
+        time_t t = time(NULL);
+        struct tm* tm = localtime(&t);
+        sprintf(goods->inTime, "%04d-%02d-%02d %02d:%02d:%02d",
+                tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
+                tm->tm_hour, tm->tm_min, tm->tm_sec);
+
+        // 写入文件
+        fwrite(goods, sizeof(GOODS_T), 1, goods_fp);
+        fflush(goods_fp);
+        insertAtTail(goodsList, goods);
+
+        // 入库成功提示
+        CONTROL_T succWin={245,300,200,80,"入库成功！",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+        control_show(succWin);
+        Sleep(1500);
+        return goodIn();
+    }
+
+    // 翻页逻辑
+    else if(win.current == -1)
+    {
+        if(pageNow > 1) pageNow--;
+        return goodIn();
+    }
+    else if(win.current == -2)
+    {
+        if(pageNow < pageNum) pageNow++;
+        return goodIn();
+    }
+
+    // 返回
+    else if(win.current == 1)
+    {
+        return 11;
+    }
+
+    return goodIn();
 }
 	 
-int goodOut() 
+int goodOut()
 {
-	
+    static int pageNow = 1;
+    int pageNum;
+    const int pageCount = 3;
+    int count = 0;
+    GOODS_T* p;
+
+    // 出库窗口
+    WINDOW_T win = {
+        0, 100, 850, 450, WHITE, 4,
+        {
+            {50, 120, 120, 40, "订单号：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {180, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 40}, // 订单号输入框
+            {400, 120, 120, 40, "经办人：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {530, 120, 150, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 20}, // 经办人输入框
+            {350, 200, 120, 40, "确认出库", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},
+            {500, 200, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},
+        }
+    };
+
+    TABLE_T goodsTable = {
+        0, 180, 850, 220,
+        3, 6,
+        {"货物ID", "订单号", "货物名", "数量", "货位", "入库时间"}
+    };
+
+    // 显示所有库存中的货物
+    memset(goodsTable.data, 0, sizeof(goodsTable.data));
+    count = getListNodeCount(goodsList);
+    pageNum = (count + pageCount - 1) / pageCount;
+    int start = (pageNow - 1) * pageCount;
+
+    for(int i=0; i<pageCount; i++)
+    {
+        if(start + i >= count) break;
+        p = (GOODS_T*)findNode(goodsList, start + i);
+        if(p == NULL) continue;
+
+        int j=0;
+        strcpy(goodsTable.data[i][j++], p->goodsId);
+        strcpy(goodsTable.data[i][j++], p->orderId);
+        strcpy(goodsTable.data[i][j++], p->goodsName);
+        sprintf(goodsTable.data[i][j++], "%d", p->goodsNum);
+        strcpy(goodsTable.data[i][j++], p->storageLoc);
+        strcpy(goodsTable.data[i][j++], p->inTime);
+    }
+
+    Background_display();
+    window_show(win);
+    table_show(goodsTable, pageNum, pageNow);
+    win = window_run(win);
+
+    // 确认出库按钮
+    if(win.current == 0)
+    {
+        char orderId[25], handler[20];
+        strcpy(orderId, win.controls[1].text);
+        strcpy(handler, win.controls[3].text);
+
+        // 找到对应货物和订单
+        GOODS_T* targetGoods = NULL;
+        LNode* cur = goodsList->next;
+        while(cur != NULL)
+        {
+            GOODS_T* g = (GOODS_T*)cur->data;
+            if(strcmp(g->orderId, orderId) == 0)
+            {
+                targetGoods = g;
+                break;
+            }
+            cur = cur->next;
+        }
+
+        if(targetGoods == NULL)
+        {
+            CONTROL_T errWin={245,300,200,80,"货物不存在",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+            control_show(errWin);
+            Sleep(1500);
+            return goodOut();
+        }
+
+        // 1. 更新订单状态为"运输中"
+        ORDER_T* targetOrder = NULL;
+        LNode* ordCur = orderList->next;
+        while(ordCur != NULL)
+        {
+            ORDER_T* ord = (ORDER_T*)ordCur->data;
+            if(strcmp(ord->orderId, orderId) == 0)
+            {
+                targetOrder = ord;
+                break;
+            }
+            ordCur = ordCur->next;
+        }
+        if(targetOrder != NULL)
+        {
+            targetOrder->orderStatus = 4; // 运输中
+        }
+
+        // 2. 更新货物信息
+        strcpy(targetGoods->handler, handler);
+        time_t t = time(NULL);
+        struct tm* tm = localtime(&t);
+        sprintf(targetGoods->outTime, "%04d-%02d-%02d %02d:%02d:%02d",
+                tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
+                tm->tm_hour, tm->tm_min, tm->tm_sec);
+
+        // 出库成功提示
+        CONTROL_T succWin={245,300,200,80,"出库成功！",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+        control_show(succWin);
+        Sleep(1500);
+        return goodOut();
+    }
+
+    // 翻页逻辑
+    else if(win.current == -1)
+    {
+        if(pageNow > 1) pageNow--;
+        return goodOut();
+    }
+    else if(win.current == -2)
+    {
+        if(pageNow < pageNum) pageNow++;
+        return goodOut();
+    }
+
+    // 返回
+    else if(win.current == 1)
+    {
+        return 11;
+    }
+
+    return goodOut();
 }
 
 int goodSeach()

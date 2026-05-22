@@ -161,5 +161,10 @@ void order_add(ORDER_T order,LNode* orderList)
     list_write_file(order_fp, sizeof(ORDER_T), orderList); 
 }
 
-
+LNode* goods_data_init(FILE* fp)
+{
+	LNode* head = initList();        
+    file_read_list(fp, sizeof(GOODS_T), head); 
+    return head;
+}
 

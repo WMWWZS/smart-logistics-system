@@ -2,7 +2,7 @@
 #define _ORDERWIN_H_
 int createOrderWin();
 int checkOrderWin(); 
-int orderSerch();
+int orderSearchWin();
 int trackOrderWin();
 int orderWin();
 #endif

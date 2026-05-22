@@ -32,7 +32,7 @@ int loginWin()
 			USER_T* p = (USER_T*)findNode(userList, i) ;
 			if(strcmp(name,p->name) == 0 && strcmp(pwd,p->passwd) == 0)
 			{
-				CONTROL_T ctl= {245, 360, 150, 70, "登录成功",CYAN, LIGHTCYAN, WHITE,BUTTON, 0, 0 };
+				CONTROL_T ctl= {245, 360, 150, 70, "登录成功",CYAN, LIGHTCYAN, WHITE,LABEL, 0, 0 };
 				control_show(ctl);
 				Sleep(2000) ;
 				flag = 1; 

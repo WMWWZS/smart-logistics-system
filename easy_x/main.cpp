@@ -19,11 +19,12 @@
 //所有的控件运行都依赖Windows_show运行 
 //展开后，相关的h文件不要少分号或者参数， 一般头文件应该在cpp中 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
- 
-LNode* userList = NULL;  //用户链表：用于保存file中用户信息 
+LNode* goodsList = NULL; 
+LNode* userList = NULL;  
 LNode* orderList = NULL; 
 FILE* user_fp = NULL; 
 FILE* order_fp = NULL; 
+FILE* goods_fp = NULL;
 
 int main(int argc, char** argv) {
 	
@@ -34,7 +35,7 @@ int main(int argc, char** argv) {
 	//2.初始化用户链表 
 	userList = user_data_init(user_fp); 
 	orderList = order_data_init(order_fp);
-	
+	goodsList = order_data_init(goods_fp);
 	//1.创建绘图窗口 
 	initgraph(800, 600) ;	
 	
@@ -45,7 +46,7 @@ int main(int argc, char** argv) {
 	//它的格式是返回值 (*fun[nums])(参数) :函数名本身就是地址，代表函数代码在内存里的起始位置
 	int (*fun[20])() = {startWin,loginWin,mainWin,           //0 1 2
 	adminWin,addUserWin,selectUserWin,   // 3 4 5
-	orderWin,createOrderWin,checkOrderWin,orderSerch,trackOrderWin,  //订单区块6 7 8 9 10
+	orderWin,createOrderWin,checkOrderWin,orderSearchWin,trackOrderWin,  //订单区块6 7 8 9 10
 	storeWin,goodIn,goodOut,goodSeach,  // //货物区块 11 12 13 14	
 	changePasswordWin,  //  15 密码修改区块	  
 	customerService,//16 智能客服 
