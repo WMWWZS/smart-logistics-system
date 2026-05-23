@@ -67,7 +67,7 @@ void file_read_list(FILE*fp,int size,void* head);
 void list_write_file(FILE* fp,int size,LNode* head);
 
 LNode* order_data_init(FILE* fp); 
-
+LNode* goods_data_init(FILE* fp); 
 void order_add(ORDER_T order); 
 
 

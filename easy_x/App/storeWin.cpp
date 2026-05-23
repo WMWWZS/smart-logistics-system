@@ -14,14 +14,14 @@ int goodIn()
 
     // 入库窗口（只显示"待审核"的订单）
     WINDOW_T win = {
-        0, 100, 850, 450, WHITE, 4,
+        0, 100, 850, 450, WHITE, 6,
         {
             {50, 120, 120, 40, "订单号：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
             {180, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 40}, // 订单号输入框
             {400, 120, 120, 40, "货位编号：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
             {530, 120, 150, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 10}, // 货位编号输入框
             {350, 200, 120, 40, "确认入库", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},
-            {500, 200, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},
+            {500, 200, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},   //6
         }
     };
 
@@ -58,7 +58,7 @@ int goodIn()
     win = window_run(win);
 
     // 确认入库按钮
-    if(win.current == 0)
+    if(win.current == 4)
     {
         char orderId[25], storageLoc[10];
         strcpy(orderId, win.controls[1].text);
@@ -134,7 +134,7 @@ int goodIn()
     }
 
     // 返回
-    else if(win.current == 1)
+    else if(win.current == 5)
     {
         return 11;
     }
@@ -158,8 +158,8 @@ int goodOut()
             {180, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 40}, // 订单号输入框
             {400, 120, 120, 40, "经办人：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
             {530, 120, 150, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 20}, // 经办人输入框
-            {350, 200, 120, 40, "确认出库", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},
-            {500, 200, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},
+            {350, 200, 120, 40, "确认出库", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},   //4
+            {500, 200, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1}, //5
         }
     };
 
@@ -196,7 +196,7 @@ int goodOut()
     win = window_run(win);
 
     // 确认出库按钮
-    if(win.current == 0)
+    if(win.current == 4)
     {
         char orderId[25], handler[20];
         strcpy(orderId, win.controls[1].text);
@@ -270,7 +270,7 @@ int goodOut()
     }
 
     // 返回
-    else if(win.current == 1)
+    else if(win.current == 5)
     {
         return 11;
     }
@@ -280,7 +280,145 @@ int goodOut()
 
 int goodSeach()
 {
-	
+    static int pageNow = 1;
+    const int pageCount = 3;
+    int pageNum;
+    int count = 0;
+    static char buf[50] = {0};
+    static LNode* tempList = NULL;
+    GOODS_T* p;
+
+    WINDOW_T win = {
+        0, 100, 850, 450, WHITE, 4,
+        {
+            {50, 120, 120, 40, "搜索关键词：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {180, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 40},
+            {400, 120, 120, 40, "搜索", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},
+            {550, 120, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},
+        }
+    };
+
+    TABLE_T table = {
+        0, 180, 850, 220,
+        3, 6,
+        {"货物名称", "类型", "数量", "存储货位", "入库时间", "状态"}
+    };
+
+    memset(table.data, 0, sizeof(table.data));
+
+    if(strlen(buf) == 0)
+    {
+        count = getListNodeCount(goodsList);
+        pageNum = (count + pageCount - 1) / pageCount;
+        int start = (pageNow - 1) * pageCount;
+
+        for(int i=0; i<pageCount; i++)
+        {
+            int idx = start + i;
+            if(idx >= count) break;
+
+            p = (GOODS_T*)findNode(goodsList, idx);
+            if(p == NULL) continue;
+
+            int j = 0;
+            strcpy(table.data[i][j++], p->goodsName);
+            strcpy(table.data[i][j++], p->goodsType);
+            sprintf(table.data[i][j++], "%d", p->goodsNum);
+            strcpy(table.data[i][j++], p->storageLoc);
+            strcpy(table.data[i][j++], p->inTime);
+            
+            // 显示状态：已入库/已出库
+            if(strlen(p->outTime) == 0)
+                strcpy(table.data[i][j++], "在库");
+            else
+                strcpy(table.data[i][j++], "已出库");
+        }
+    }
+    else
+    {
+        count = getListNodeCount(tempList);
+        pageNum = (count + pageCount - 1) / pageCount;
+        int start = (pageNow - 1) * pageCount;
+
+        for(int i=0; i<pageCount; i++)
+        {
+            int idx = start + i;
+            if(idx >= count) break;
+
+            GOODS_T* t = (GOODS_T*)findNode(tempList, idx);
+            if(t == NULL) continue;
+
+            int j = 0;
+            strcpy(table.data[i][j++], t->goodsName);
+            strcpy(table.data[i][j++], t->goodsType);
+            sprintf(table.data[i][j++], "%d", t->goodsNum);
+            strcpy(table.data[i][j++], t->storageLoc);
+            strcpy(table.data[i][j++], t->inTime);
+            if(strlen(t->outTime) == 0)
+                strcpy(table.data[i][j++], "在库");
+            else
+                strcpy(table.data[i][j++], "已出库");
+        }
+    }
+
+    Background_display();
+    window_show(win);
+    table_show(table, pageNum, pageNow);
+    win = window_run(win);
+
+    // 搜索按钮：按货物名称、类型、货位编号查询
+    if(win.current == 2)
+    {
+        strcpy(buf, win.controls[1].text);
+        pageNow = 1;
+
+        if(tempList != NULL) freeList(tempList);
+        tempList = initList();
+
+        int total = getListNodeCount(goodsList);
+        for(int k=0; k<total; k++)
+        {
+            GOODS_T* t = (GOODS_T*)findNode(goodsList, k);
+            if(t == NULL) continue;
+
+            if(strstr(t->goodsName, buf) != NULL || 
+               strstr(t->goodsType, buf) != NULL || 
+               strstr(t->storageLoc, buf) != NULL)
+            {
+                insertAtTail(tempList, t);
+            }
+        }
+        return goodSeach();
+    }
+
+    // 上一页
+    else if(win.current == -1)
+    {
+        if(pageNow > 1) pageNow--;
+        return goodSeach();
+    }
+
+    // 下一页
+    else if(win.current == -2)
+    {
+        if(pageNow < pageNum) pageNow++;
+        return goodSeach();
+    }
+
+    // 返回
+    else if(win.current == 3)
+    {
+        if(tempList != NULL)
+        {
+            freeList(tempList);
+            tempList = NULL;
+        }
+        memset(buf, 0, sizeof(buf));
+        pageNow = 1;
+        return 11;
+    }
+
+    return goodSeach();
 }
 
 int storeWin()   

@@ -31,11 +31,12 @@ int main(int argc, char** argv) {
 	//1.打开文件 
 	user_fp = file_open("data/user.txt");
 	order_fp = file_open("data/order.txt") ;
+	goods_fp = file_open("data/goods.txt") ;
 	
 	//2.初始化用户链表 
 	userList = user_data_init(user_fp); 
 	orderList = order_data_init(order_fp);
-	goodsList = order_data_init(goods_fp);
+	goodsList = goods_data_init(goods_fp);
 	//1.创建绘图窗口 
 	initgraph(800, 600) ;	
 	

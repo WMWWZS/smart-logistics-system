@@ -113,8 +113,8 @@ int checkOrderWin()
     WINDOW_T win = {200,100,500,400,WHITE,7,{
         {220,120,150,40,"输入待审核订单号",CYAN,LIGHTCYAN,WHITE,LABEL,0,0},
         {220,170,200,40,"",CYAN,LIGHTCYAN,WHITE,EDIT,1,25},
-        {220,240,120,40,"通过",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0},
-        {360,240,120,40,"驳回",CYAN,LIGHTCYAN,WHITE,BUTTON,0,1},
+        {220,240,120,40,"通过",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0},  //2
+        {360,240,120,40,"驳回",CYAN,LIGHTCYAN,WHITE,BUTTON,0,1},  //3
         {220,300,200,40,"驳回原因",CYAN,LIGHTCYAN,WHITE,LABEL,0,0},
         {220,350,200,40,"",CYAN,LIGHTCYAN,WHITE,EDIT,0,60},
         {220,400,120,40,"返回",CYAN,LIGHTCYAN,WHITE,BUTTON,0,2},  //6
@@ -138,20 +138,20 @@ int checkOrderWin()
         ORDER_T* p = (ORDER_T*)cur->data;
         if(strcmp(p->orderId, oid)==0 && p->orderStatus==0)
         {
-            if(win.current == 0)
+            if(win.current == 2)
             {
                 p->orderStatus = 1;
             }
-            if(win.current == 1)
+            if(win.current == 3)
             {
                 p->orderStatus = 2;
                 strcpy(p->rejectReason, win.controls[5].text);
             }
-            return 9;
+            return 6;
         }
         cur = cur->next;
     }
-    return 9;
+    return 6;
 } 
      
 
@@ -161,7 +161,7 @@ int orderSearchWin()
     int pageNum;
     int pageCount=3;
     int count=0;
-    static char buf[50]={0};
+    static char buf2[100]={0};
     static LNode* tempList=NULL;
     ORDER_T* p;
     int allCount;
@@ -183,7 +183,7 @@ int orderSearchWin()
     };
 	memset(&table.data, 0, sizeof(table.data));
     // 1. 全量查询
-    if(strlen(buf)==0)
+    if(strlen(buf2)==0)
     {
         int i=0, j=0;
         count=getListNodeCount(orderList);	
@@ -258,7 +258,7 @@ int orderSearchWin()
     {
         if(strlen(win.controls[1].text) > 0)
         {
-            strcpy(buf, win.controls[1].text);
+            strcpy(buf2, win.controls[1].text);
             if(tempList != NULL)
             {
                 freeList(tempList);
@@ -271,7 +271,7 @@ int orderSearchWin()
                 ORDER_T *t = (ORDER_T *)findNode(orderList, k);
                 if(t == NULL) continue;
 
-                if(strstr(t->orderId, buf) != NULL || strstr(t->cusName, buf) != NULL)
+                if(strstr(t->orderId, buf2) != NULL || strstr(t->cusName, buf2) != NULL)
                 {
                     insertAtTail(tempList, t);
                 }
@@ -280,7 +280,7 @@ int orderSearchWin()
         }
         else
         {
-            memset(buf,0,sizeof(buf));
+            memset(buf2,0,sizeof(buf2));
             pageNow=1;
         }
         return orderSearchWin();
@@ -316,7 +316,7 @@ int orderSearchWin()
             freeList(tempList);
             tempList = NULL;
         }
-        memset(buf,0,sizeof(buf));
+        memset(buf2,0,sizeof(buf2));
         pageNow=1;
         return 6;
     }
@@ -344,7 +344,6 @@ int trackOrderWin()
     window_show(win);
     win = window_run(win);
 
-    // 主循环
     while (1)
     {
         // 更新跟踪信息显示
@@ -375,7 +374,6 @@ int trackOrderWin()
                 }
                 cur = cur->next;
             }
-
             if (targetOrder == NULL)
             {
                 strcpy(trackDisplay, "订单不存在");
@@ -402,9 +400,8 @@ int trackOrderWin()
 					break;
                     default: strcpy(statusStr, "未知状态");
                 }
-
-                sprintf(trackDisplay, "订单状态：%s\n跟踪记录：\n%s", 
-                        statusStr, targetOrder->trackInfo);
+                	sprintf(trackDisplay, "订单状态：%s\n跟踪记录：\n%s", 
+                    statusStr, targetOrder->trackInfo);
             }
         }
 
@@ -445,7 +442,7 @@ int trackOrderWin()
 
             // 打开更新跟踪信息的窗口
             WINDOW_T updateWin = {
-                300, 200, 400, 250, WHITE, 2,
+                300, 200, 400, 250, WHITE, 4,
                 {
                     {320, 220, 150, 40, "输入新跟踪信息", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
                     {320, 270, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 100},
@@ -463,7 +460,8 @@ int trackOrderWin()
                 // 追加跟踪信息，带时间戳
                 char newInfo[150];
                 strcpy(newInfo, updateWin.controls[1].text);
-                if (strlen(newInfo) == 0) continue;
+                if (strlen(newInfo) == 0) 
+				continue;
 
                 time_t t = time(NULL);
                 struct tm* tm = localtime(&t);
@@ -477,10 +475,10 @@ int trackOrderWin()
                 sprintf(fullInfo, "%s%s%s\n", targetOrder->trackInfo, timeStr, newInfo);
                 strcpy(targetOrder->trackInfo, fullInfo);
 
-                // 同步更新文件（如果需要）
-                // fseek(order_fp, -sizeof(ORDER_T), SEEK_CUR);
-                // fwrite(targetOrder, sizeof(ORDER_T), 1, order_fp);
-                // fflush(order_fp);
+                //同步更新文件
+                fseek(order_fp, -sizeof(ORDER_T), SEEK_CUR);
+                fwrite(targetOrder, sizeof(ORDER_T), 1, order_fp);
+                fflush(order_fp);
 
                 CONTROL_T succWin={245,300,200,80,"跟踪信息更新成功！",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
                 control_show(succWin);

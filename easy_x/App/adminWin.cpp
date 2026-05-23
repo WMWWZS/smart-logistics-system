@@ -9,22 +9,17 @@
 int adminWin()
 {
 	WINDOW_T win={290,155,220,330,WHITE,8,{
-	{300,160,200,40,"1、创建用户",CYAN, LIGHTCYAN, WHITE,BUTTON,1,0},//0
-	{300,200,200,40,"2、用户查询",CYAN, LIGHTCYAN, WHITE,BUTTON,0,0},//1
-	{300,240,200,40,"3、密码重置",CYAN, LIGHTCYAN, WHITE,BUTTON,0,0}, //2
-	{300,280,200,40,"4、角色管理",CYAN, LIGHTCYAN, WHITE,BUTTON,0,0}, //3
-	{300,320,200,40,"5、仓库配置",CYAN, LIGHTCYAN, WHITE,BUTTON,0,0}, //4
-	{300,360,200,40,"6、路线配置",CYAN, LIGHTCYAN, WHITE,BUTTON,0,0}, //5
-	{300,400,200,40,"7、数据备份",CYAN, LIGHTCYAN, WHITE,BUTTON,0,0}, //6
-	{300,440,200,40,"8、返回上级",CYAN, LIGHTCYAN, WHITE,BUTTON,0,0}, //7
+	{300,160,200,40,"1、创建用户",LIGHTCYAN,CYAN, WHITE,BUTTON,1,0},//0
+	{300,200,200,40,"2、用户查询",LIGHTCYAN,CYAN, WHITE,BUTTON,0,0},//1
+	{300,240,200,40,"3、密码重置",LIGHTCYAN,CYAN, WHITE,BUTTON,0,0}, //2
+	{300,280,200,40,"4、角色管理",LIGHTCYAN,CYAN, WHITE,BUTTON,0,0}, //3
+	{300,320,200,40,"5、仓库配置",LIGHTCYAN,CYAN, WHITE,BUTTON,0,0}, //4
+	{300,360,200,40,"6、路线配置",LIGHTCYAN,CYAN, WHITE,BUTTON,0,0}, //5
+	{300,400,200,40,"7、数据备份",LIGHTCYAN,CYAN, WHITE,BUTTON,0,0}, //6
+	{300,440,200,40,"8、返回上级",LIGHTCYAN,CYAN, WHITE,BUTTON,0,0}, //7
 	}};
-	IMAGE img;
-	loadimage(&img, "./imge/LMS.jpg",800,600);
-	putimage(0, 0, &img);  
-	setbkmode(TRANSPARENT);
-	settextcolor(CYAN);
-	outtextxy(200,530,"操作说明：上下键移动切换菜单，按下回车键选择菜单");
-	window_show(win);
+	Background_display();
+	window_show(win); 
 	win=window_run(win);
 	printf("当前%d\n",win.current) ;
 	if(win.current==0)
@@ -34,6 +29,10 @@ int adminWin()
 	else if(win.current==7) 
 	{
 	    return 2;
+	}
+	else if(win.current==2) 
+	{
+		return 15; 
 	}
 	else if(win.current==1) 
 	{
