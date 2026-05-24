@@ -355,7 +355,7 @@ int trackOrderWin()
 
         win = window_run(win);
 
-        // 1. 查询跟踪信息
+        // 1. 查询跟踪信息 
         if (strlen(win.controls[1].text) > 0)
         {
             char orderId[25];
@@ -442,7 +442,7 @@ int trackOrderWin()
 
             // 打开更新跟踪信息的窗口
             WINDOW_T updateWin = {
-                300, 200, 400, 250, WHITE, 4,
+                0, 200, 400, 250, WHITE, 4,
                 {
                     {320, 220, 150, 40, "输入新跟踪信息", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
                     {320, 270, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 100},

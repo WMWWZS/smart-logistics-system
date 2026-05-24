@@ -3,9 +3,8 @@
 int adminWin();
 int addUserWin();
 int selectUserWin(); 
-
-
-
+int init1();
+int init2(); 
 #endif 
  
 

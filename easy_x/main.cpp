@@ -51,7 +51,8 @@ int main(int argc, char** argv) {
 	storeWin,goodIn,goodOut,goodSeach,  // //货物区块 11 12 13 14	
 	changePasswordWin,  //  15 密码修改区块	  
 	customerService,//16 智能客服 
-	analysisWin};   //   17  统计分析				         //startWin进入 由loginWin验证 mainWin展开 ： 
+	analysisWin,  //17  统计分析模块 
+	init1,init2};    //18	 路线和仓库数据初始化		         //startWin进入 由loginWin验证 mainWin展开 ： 
 	int win_id = 0; 																						//顺序是： 1.odrderWin 2.storeWin 3.RunWin 4.*统计分析   
 	while(1)																					//5.*客服服务（考虑接入大模型，当前无实质作用(不知到AI能不能读取到链表或者文件信息)） 6.*密码修改  7.*密码修改 
 	{																								

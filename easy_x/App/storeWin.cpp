@@ -21,7 +21,7 @@ int goodIn()
             {400, 120, 120, 40, "货位编号：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
             {530, 120, 150, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 10}, // 货位编号输入框
             {350, 200, 120, 40, "确认入库", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},
-            {500, 200, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},   //6
+            {500, 200, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},   //5
         }
     };
 

@@ -46,6 +46,18 @@ typedef struct {
     char handler[20];      // 经办人
 } GOODS_T;
 
+// 统计结果结构体
+typedef struct {
+    int total;      // 总订单
+    int audit;      // 待审核
+    int pass;       // 已通过
+    int reject;     // 已驳回
+    int out;        // 待出库
+    int trans;      // 运输中
+    int arrive;     // 已送达
+    int complete;   // 已完成
+} OrderStat;
+
 // 全局链表（放到你的全局变量区）
 extern LNode* goodsList;
 extern FILE* goods_fp;

@@ -5,6 +5,62 @@
 #include "../public/file.h"
 #include "../public/list.h"
 #include "../App/data.h"
+int init1()
+{
+    WINDOW_T win = {
+        50, 50, 600, 400, WHITE, 9,
+        {
+            {120,  50, 200, 30, "路线：R001", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {120,  80, 200, 30, "起点：中心仓库", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {120, 110, 200, 30, "终点：城西配送点", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {120, 140, 200, 30, "距离：120km", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {120, 170, 200, 30, "预计耗时：3小时", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {120, 200, 200, 30, "车辆数：2辆", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {120, 230, 200, 30, "司机：张师傅", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {120, 270, 200, 30, "状态：运行中", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {120, 320, 120, 40, "返回", LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 1},
+        }
+    };
+
+    Background_display();
+    window_show(win);
+    win = window_run(win);
+
+    if(win.current == 8)
+    {
+        return 3;
+    }
+    return init1();
+}
+
+int init2()  //仅用作萝卜占位内容展示，无实质作用 ，后续版本可能更新 
+{
+    WINDOW_T win = {
+        50, 50, 600, 400, WHITE, 9,
+        {
+            {50, 50, 300, 200, "仓库：A01 中心仓库",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {50, 80, 300, 200, "仓库编号: A01",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {50, 110, 300, 200, "仓库容量: 10000",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {50, 140, 300, 200, "已用容量: 3500",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {50, 170, 300, 200, "货位数量: 500",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+			{50, 200, 300, 200, "可用货位: 320",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+			{50, 230, 300, 200, "状态: 正常",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+			{50, 240, 300, 200, "负责人: 管理员",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {80, 280, 120, 40, "返回", LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 1},
+        }
+    };
+
+    Background_display();
+    window_show(win);
+    win = window_run(win);
+
+    if(win.current == 8)
+    {
+        return 3;
+    }
+    return init2();
+} 
+
 
 int adminWin()
 {
@@ -22,21 +78,49 @@ int adminWin()
 	window_show(win); 
 	win=window_run(win);
 	printf("当前%d\n",win.current) ;
-	if(win.current==0)
+	if(win.current==0) 
 	{
 	    return 4;
-	}
-	else if(win.current==7) 
-	{
-	    return 2;
-	}
-	else if(win.current==2) 
-	{
-		return 15; 
 	}
 	else if(win.current==1) 
 	{
 		return 5; 
+	}	
+	else if(win.current==2) 
+	{
+		return 15; 
+	}
+	else if(win.current==3) 
+	{
+		CONTROL_T tip={245,300,240,70,"功能尚未实装，待后续版本",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0};
+	    control_show(tip);
+	    Sleep(1500) ; 
+	    return 3;
+	}	
+	else if(win.current==4)
+	{
+		CONTROL_T tip={245,300,240,70,"功能尚未实装，待后续版本",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0};
+	    control_show(tip);
+	    Sleep(1500) ; 
+	    return 18;		
+	} 	
+	else if(win.current==5)
+	{
+		CONTROL_T tip={245,300,240,70,"功能尚未实装，待后续版本",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0};
+	    control_show(tip);
+	    Sleep(1500) ; 
+	    return 19;		
+	} 	
+	else if(win.current==6) 
+	{
+		CONTROL_T tip={245,300,240,70,"功能尚未实装，待后续版本",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0};
+	    control_show(tip);
+	    Sleep(1500) ; 
+	    return 2;
+	}	
+	else if(win.current==7) 
+	{
+	    return 2;
 	}
 }
 

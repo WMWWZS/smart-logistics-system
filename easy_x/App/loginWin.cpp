@@ -32,7 +32,7 @@ int loginWin()
 			USER_T* p = (USER_T*)findNode(userList, i) ;
 			if(strcmp(name,p->name) == 0 && strcmp(pwd,p->passwd) == 0)
 			{
-				CONTROL_T ctl= {245, 360, 150, 70, "µÇÂ¼³É¹¦",CYAN, LIGHTCYAN, WHITE,LABEL, 0, 0 };
+				CONTROL_T ctl= {245, 360, 150, 70, "µÇÂ¼³É¹¦",LIGHTCYAN,CYAN, WHITE,BUTTON, 0, 0 };
 				control_show(ctl);
 				Sleep(2000) ;
 				flag = 1; 
@@ -41,7 +41,7 @@ int loginWin()
 		}
 		if(flag == 0) 
 		{
-			CONTROL_T ctl= {245, 360, 150, 70, "µÇÂ¼Ê§°Ü",CYAN, LIGHTCYAN, WHITE,BUTTON, 0, 0 };
+			CONTROL_T ctl= {245, 360, 150, 70, "µÇÂ¼Ê§°Ü",LIGHTCYAN,CYAN, WHITE,BUTTON, 0, 0 };
 			control_show(ctl);	
 			Sleep(2000) ;
 			return 1; 		
