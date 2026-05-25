@@ -3,6 +3,5 @@
 int createOrderWin();
 int checkOrderWin(); 
 int orderSearchWin();
-int trackOrderWin();
 int orderWin();
 #endif

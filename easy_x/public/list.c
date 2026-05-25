@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h" 
 #include "list.h" 
+#include "../App/data.h" 
 LNode* initList()
 {
 	LNode* head=(LNode*)malloc(sizeof(LNode));
@@ -127,6 +128,25 @@ int getListNodeCount(LNode* head)
 	return count; 
 }
 
+void freeOrList(LNode* head)
+{
+    LNode* p = head;
+    while (p != NULL) {
+        LNode* next = p->next;
+        ORDER_T* data = (ORDER_T*)p->data;
+        if (data != NULL) {
+            free(data->orderId);
+            free(data->cusName);
+            free(data->cusPhone);
+            free(data->goodsName);
+            free(data->expectTime);
+            free(data->rejectReason);
+            free(data);
+        }
+        free(p);
+        p = next;
+    }	
+} 
 //int printList(LNode* head,void (*fun)(void* p)) 
 //{
 //	LNode* p=head->next;

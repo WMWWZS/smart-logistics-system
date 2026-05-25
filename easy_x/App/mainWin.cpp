@@ -26,23 +26,23 @@ int mainWin()   //登录成功后页面
 	}
 	else if(win.current==2)
 	{
-	    return 11;   //仓储管理界面 
+	    return 10;   //仓储管理界面 
 	}
 	else if(win.current==3)
 	{
-	    return 9;        //运输管理界面 
+	    return 8;        //运输管理界面 
 	}
 	else if(win.current==4)
 	{
-	    return 3;  //统计分析界面 
+	    return 16;  //统计分析界面 
 	}
 	else if(win.current==5)
 	{
-	    return 16;      //客服服务界面 
+	    return 15;      //客服服务界面 
 	}
 	else if(win.current==6)
 	{
-	    return 15;    //密码修改界面
+	    return 14;    //密码修改界面
 	}
 	else if(win.current==7)
 	{

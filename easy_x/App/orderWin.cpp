@@ -11,18 +11,16 @@ void genOrderId(char* outId, int seq)
 {
     time_t t = time(NULL);
     struct tm* tm = localtime(&t);
-    sprintf(outId, "WL%04d%02d%02d%06d",
+    sprintf(outId, "D%04d%02d%02d%03d",
         tm->tm_year + 1900,
         tm->tm_mon + 1,
         tm->tm_mday,
         seq);
 }
-//工具 
 
 
 int createOrderWin()
 {
-    // 窗口整体下移，扩大高度，保证按钮完全可见
     WINDOW_T win = {
         200, 30, 520, 600, WHITE, 22,
         {
@@ -67,8 +65,8 @@ int createOrderWin()
             {350, 510, 150, 35, "",           CYAN, LIGHTCYAN, WHITE, EDIT,  0, 20},  //19
 
             // 按钮（居中、下移到底部）
-            {230, 555, 120, 40, "确认创建",    CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},    //20
-            {370, 555, 120, 40, "返回",        CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},  //21
+            {230, 555, 120, 40, "确认创建",    LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 0},    //20
+            {370, 555, 120, 40, "返回",        LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 1},  //21
         }
     };
 
@@ -82,7 +80,7 @@ int createOrderWin()
 	    memset(ord, 0, sizeof(ORDER_T));
 	
 	    int seq = getListNodeCount(orderList) + 1;
-	    genOrderId(ord->orderId, seq);
+	    genOrderId(ord->orderId, seq);  //genOrderId工具 
 	
 	    strcpy(ord->cusName, win.controls[1].text);
 	    strcpy(ord->cusPhone, win.controls[3].text);
@@ -111,13 +109,13 @@ int createOrderWin()
 int checkOrderWin()
 {
     WINDOW_T win = {200,100,500,400,WHITE,7,{
-        {220,120,150,40,"输入待审核订单号",CYAN,LIGHTCYAN,WHITE,LABEL,0,0},
+        {220,120,150,40,"输入待审核订单号",LIGHTCYAN,CYAN,WHITE,LABEL,0,0},
         {220,170,200,40,"",CYAN,LIGHTCYAN,WHITE,EDIT,1,25},
-        {220,240,120,40,"通过",CYAN,LIGHTCYAN,WHITE,BUTTON,0,0},  //2
-        {360,240,120,40,"驳回",CYAN,LIGHTCYAN,WHITE,BUTTON,0,1},  //3
-        {220,300,200,40,"驳回原因",CYAN,LIGHTCYAN,WHITE,LABEL,0,0},
+        {220,240,120,40,"通过",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //2
+        {360,240,120,40,"驳回",LIGHTCYAN,CYAN,WHITE,BUTTON,0,1},  //3
+        {220,300,200,40,"驳回原因",LIGHTCYAN,CYAN,WHITE,LABEL,0,0},
         {220,350,200,40,"",CYAN,LIGHTCYAN,WHITE,EDIT,0,60},
-        {220,400,120,40,"返回",CYAN,LIGHTCYAN,WHITE,BUTTON,0,2},  //6
+        {220,400,120,40,"返回",LIGHTCYAN,CYAN,WHITE,BUTTON,0,2},  //6
     }};
 
     Background_display();
@@ -153,7 +151,6 @@ int checkOrderWin()
     }
     return 6;
 } 
-     
 
 int orderSearchWin()
 {
@@ -169,10 +166,10 @@ int orderSearchWin()
     WINDOW_T win = {
         0, 100, 850, 450, WHITE, 4,
         {
-            {50, 120, 120, 40, "搜索关键词：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
+            {50, 120, 120, 40, "搜索关键词：", LIGHTCYAN,CYAN, WHITE, LABEL, 0, 0},
             {180, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 40},
-            {400, 120, 120, 40, "搜索", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},
-            {550, 120, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},
+            {400, 120, 120, 40, "搜索", LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 0},
+            {550, 120, 120, 40, "返回", LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 1},
         }
     };
 
@@ -266,16 +263,28 @@ int orderSearchWin()
             }
             tempList=initList();
 
-            for(int k=0;k<allCount;k++)
-            {
-                ORDER_T *t = (ORDER_T *)findNode(orderList, k);
-                if(t == NULL) continue;
-
-                if(strstr(t->orderId, buf2) != NULL || strstr(t->cusName, buf2) != NULL)
-                {
-                    insertAtTail(tempList, t);
-                }
-            }
+			for(int k=0; k<allCount; k++)
+			{
+			    ORDER_T *t = (ORDER_T *)findNode(orderList, k);
+			    if(t == NULL) continue;
+			
+			    if(strstr(t->orderId, buf2) != NULL || strstr(t->cusName, buf2) != NULL)
+			    {
+					LNode* newNode = (LNode*)malloc(sizeof(LNode));
+					newNode->data = malloc(sizeof(ORDER_T));
+					memcpy(newNode->data, t, sizeof(ORDER_T));
+					newNode->next = NULL;
+					LNode* tail = NULL;					
+					if(tempList->next == NULL) {
+					    tempList->next = newNode;
+					} 
+					else {
+					    tail = tempList->next;
+					    while(tail->next) tail = tail->next;
+					    tail->next = newNode;
+					}
+			    }
+			}
             pageNow=1;
         }
         else
@@ -323,185 +332,13 @@ int orderSearchWin()
     return orderSearchWin();
 }
 
-int trackOrderWin()
-{
-    WINDOW_T win = {
-        70, 100, 520, 400, WHITE, 6,
-        {
-            {220, 120, 150, 40, "订单号", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
-            {380, 120, 120, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 1, 25}, // 订单号输入框
-            {220, 180, 150, 40, "跟踪信息", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
-            {220, 230, 280, 80, "", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0}, // 显示跟踪信息
-            {220, 330, 120, 40, "更新跟踪", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},  //4
-            {380, 330, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},    //5
-        }
-    };
-
-    // 初始化跟踪信息显示
-    char trackDisplay[500] = "请输入订单号查询";
-
-    Background_display();
-    window_show(win);
-    win = window_run(win);
-
-    while (1)
-    {
-        // 更新跟踪信息显示
-        setcolor(WHITE);
-        setfillcolor(WHITE);
-        solidrectangle(220, 230, 500, 310); // 清除旧信息
-        setcolor(CYAN);
-        outtextxy(220, 230, trackDisplay);
-
-        win = window_run(win);
-
-        // 1. 查询跟踪信息 
-        if (strlen(win.controls[1].text) > 0)
-        {
-            char orderId[25];
-            strcpy(orderId, win.controls[1].text);
-
-            // 查找订单
-            ORDER_T* targetOrder = NULL;
-            LNode* cur = orderList->next;
-            while (cur != NULL)
-            {
-                ORDER_T* ord = (ORDER_T*)cur->data;
-                if (strcmp(ord->orderId, orderId) == 0)
-                {
-                    targetOrder = ord;
-                    break;
-                }
-                cur = cur->next;
-            }
-            if (targetOrder == NULL)
-            {
-                strcpy(trackDisplay, "订单不存在");
-            }
-            else
-            {
-                // 显示订单状态和跟踪信息
-                char statusStr[20];
-                switch(targetOrder->orderStatus)
-                {
-                    case 0: strcpy(statusStr, "待审核"); 
-					break;
-                    case 1: strcpy(statusStr, "已通过");
-					break;
-                    case 2: strcpy(statusStr, "已驳回"); 
-					break;
-                    case 3: strcpy(statusStr, "待出库"); 
-					break;
-                    case 4: strcpy(statusStr, "运输中"); 
-					break;
-                    case 5: strcpy(statusStr, "已送达"); 
-					break;
-                    case 6: strcpy(statusStr, "已完成"); 
-					break;
-                    default: strcpy(statusStr, "未知状态");
-                }
-                	sprintf(trackDisplay, "订单状态：%s\n跟踪记录：\n%s", 
-                    statusStr, targetOrder->trackInfo);
-            }
-        }
-
-        // 2. 更新跟踪信息按钮
-        if (win.current == 4)
-        {
-            char orderId[25];
-            strcpy(orderId, win.controls[1].text);
-
-            if (strlen(orderId) == 0)
-            {
-                CONTROL_T errWin={245,300,200,80,"请先输入订单号",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
-                control_show(errWin);
-                Sleep(1500);
-                continue;
-            }
-
-            ORDER_T* targetOrder = NULL;
-            LNode* cur = orderList->next;
-            while (cur != NULL)
-            {
-                ORDER_T* ord = (ORDER_T*)cur->data;
-                if (strcmp(ord->orderId, orderId) == 0)
-                {
-                    targetOrder = ord;
-                    break;
-                }
-                cur = cur->next;
-            }
-
-            if (targetOrder == NULL)
-            {
-                CONTROL_T errWin={245,300,200,80,"订单不存在",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
-                control_show(errWin);
-                Sleep(1500);
-                continue;
-            }
-
-            // 打开更新跟踪信息的窗口
-            WINDOW_T updateWin = {
-                0, 200, 400, 250, WHITE, 4,
-                {
-                    {320, 220, 150, 40, "输入新跟踪信息", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
-                    {320, 270, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 100},
-                    {350, 330, 100, 40, "确认", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},
-                    {480, 330, 100, 40, "取消", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1},
-                }
-            };
-
-            Background_display();
-            window_show(updateWin);
-            updateWin = window_run(updateWin);
-
-            if (updateWin.current == 0)
-            {
-                // 追加跟踪信息，带时间戳
-                char newInfo[150];
-                strcpy(newInfo, updateWin.controls[1].text);
-                if (strlen(newInfo) == 0) 
-				continue;
-
-                time_t t = time(NULL);
-                struct tm* tm = localtime(&t);
-                char timeStr[30];
-                sprintf(timeStr, "[%04d-%02d-%02d %02d:%02d] ",
-                        tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
-                        tm->tm_hour, tm->tm_min);
-
-                // 追加到跟踪信息中
-                char fullInfo[200];
-                sprintf(fullInfo, "%s%s%s\n", targetOrder->trackInfo, timeStr, newInfo);
-                strcpy(targetOrder->trackInfo, fullInfo);
-
-                //同步更新文件
-                fseek(order_fp, -sizeof(ORDER_T), SEEK_CUR);
-                fwrite(targetOrder, sizeof(ORDER_T), 1, order_fp);
-                fflush(order_fp);
-
-                CONTROL_T succWin={245,300,200,80,"跟踪信息更新成功！",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
-                control_show(succWin);
-                Sleep(1500);
-            }
-        }
-
-        // 3. 返回按钮
-        if (win.current == 5)
-        {
-            return 6;
-        }
-    }
-}
-
 int orderWin()   //主窗口（形式展示）->分窗口（真正的功能实现） 
 {
-    WINDOW_T win={290,155,220,330,WHITE,5,{
+    WINDOW_T win={290,155,220,330,WHITE,4,{
         {300,160,200,40,"1.创建订单",LIGHTCYAN,CYAN,WHITE,BUTTON,1,0},  //0
         {300,200,200,40,"2.订单审核",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //1
-        {300,240,200,40,"3.订单查询",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //2
-        {300,280,200,40,"4.订单跟踪",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //3
-        {300,320,200,40,"5.返回上级",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //4
+        {300,240,200,40,"3.订单查询",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //2  //3
+        {300,280,200,40,"5.返回上级",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //4
     },0};
     
 	Background_display();
@@ -523,11 +360,8 @@ int orderWin()   //主窗口（形式展示）->分窗口（真正的功能实现）
     {
         return 9;   //查询订单 
     }
-    else if(win.current == 3)
-    {
-        return 10; //跟踪订单 
-    }
-    else if (win.current == 4)
+
+    else if (win.current == 3)
     {
     	return 2;  //mianWin 
 	}

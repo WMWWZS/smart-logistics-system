@@ -16,5 +16,5 @@ void* findNode(LNode* head, int position);
 void freeList(LNode* head);
 int getListNodeCount(LNode* head);
 void printList(LNode* head, void (*fun)(void* p));
-
+void freeOrList(LNode* head);
 #endif
