@@ -50,7 +50,7 @@ int customerService()
     char question[100] = {0};
     char answer[256] = {"欢迎使用智能物流AI客服，请输入问题~"};
 
-    WINDOW_T chatWin = {180,100,560,440,WHITE,4,{
+    WINDOW_T chatWin = {180,100,560,440,WHITE,5,{
         {200,110,300,40,"AI智能客服",CYAN,LIGHTCYAN,WHITE,LABEL,0,0},
         {200,170,320,80,"",CYAN,LIGHTCYAN,WHITE,LABEL,0,0},    // AI回答展示框
         {200,270,320,40,"",CYAN,LIGHTCYAN,WHITE,EDIT,1,100},   // 输入框
@@ -66,20 +66,30 @@ BACK:
     chatWin = window_run(chatWin);
 
     // 发送问题，调用大模型
-    if (chatWin.current == 2)
-    {
-        strcpy(question, chatWin.controls[2].text);
-        if (strlen(question) == 0) goto BACK;
-
-        getAIReply(question, answer);
-        memset(chatWin.controls[2].text, 0, sizeof(chatWin.controls[2].text));
-        goto BACK;
-    }
+	// 发送问题，调用大模型
+	if (chatWin.current == 3)
+	{
+	    strcpy(question, chatWin.controls[2].text);
+	    if (strlen(question) == 0) goto BACK;
+	
+	    getAIReply(question, answer);
+	
+	    // 把AI回答安全地复制到 LABEL 控件
+	    strncpy(chatWin.controls[1].text, answer, sizeof(chatWin.controls[1].text) - 1);
+	    chatWin.controls[1].text[sizeof(chatWin.controls[1].text) - 1] = '\0';
+	
+	    // 刷新界面，让新文本显示出来
+	    Background_display();
+	    window_show(chatWin);
+	
+	    // 清空输入框
+	    memset(chatWin.controls[2].text, 0, sizeof(chatWin.controls[2].text));
+	    goto BACK;
+	}
 
     // 返回主菜单
-    if (chatWin.current == 3)
+    if (chatWin.current == 4)
     {
-        return 5;
+        return 2;
     }
-    return 13;
 }

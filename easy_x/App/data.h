@@ -48,22 +48,25 @@ typedef struct {
 
 // 统计结果结构体
 typedef struct {
-    int total;      // 总订单
-    int audit;      // 待审核
-    int pass;       // 已通过
-    int reject;     // 已驳回
-    int out;        // 待出库
-    int trans;      // 运输中
-    int arrive;     // 已送达
-    int complete;   // 已完成
+    int total;           // 总订单
+    int audit;           // 待审核
+    int pass;            // 已通过
+    int reject;          // 已驳回
+    int out;             // 待出库
+    int trans;           // 运输中
+    int arrive;          // 已送达
+    int complete;        // 已完成
+    int weightSum;       // 总重量（用于简单统计）
+    int typeCount[5];    // 假设最多5种货物类型，记录每种类型订单数
 } OrderStat;
 
 // 全局链表（放到你的全局变量区）
-extern LNode* goodsList;
+extern FILE* exports_fp; 
 extern FILE* goods_fp;
 extern FILE* order_fp;
-extern LNode* userList;
 extern FILE* user_fp;
+extern LNode* goodsList;
+extern LNode* userList;
 extern LNode* orderList;
 LNode* user_data_init(FILE* user_fp);
 
