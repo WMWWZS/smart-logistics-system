@@ -85,7 +85,6 @@ void file_upDate(FILE *fp, int size, void *data, int index)
 	{
         return;
     }
-
     fseek(fp, index, SEEK_SET);
     fwrite(data, 1, size, fp);
     fflush(fp);

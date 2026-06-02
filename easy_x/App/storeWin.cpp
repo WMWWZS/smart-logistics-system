@@ -3,8 +3,8 @@
 #include "../View/control.h"
 #include <string.h>
 #include <windows.h>
-#include <time.h> 
-#include "../public/list.h" 
+#include <time.h>
+#include "../public/list.h"
 int goodIn()
 {
     static int pageNow = 1;
@@ -12,9 +12,9 @@ int goodIn()
     int count = 0;
     ORDER_T *p;
 
-    // 入库窗口（只显示"待审核"的订单）
+    //入库窗口（只显示"待审核"的订单）
     WINDOW_T win = {
-        0, 100, 850, 450, WHITE, 6,
+        0, 100, 850, 450, CYAN, 6,
         {
             {50, 120, 120, 40, "订单号：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
             {190, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 30}, // 订单号输入框
@@ -84,16 +84,16 @@ int goodIn()
 
         if(targetOrder == NULL)
         {
-            CONTROL_T errWin={245,300,200,80,"订单不存在或状态不符",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+            CONTROL_T errWin={245,300,200,80,"订单不存在或状态不符",CYAN, LIGHTCYAN,WHITE,BUTTON,0};
             control_show(errWin);
             Sleep(1500);
             return goodIn();
         }
 
-        // 1. 更新订单状态为"待运输"
+        //1.更新订单状态为"待运输"
         targetOrder->orderStatus = 3;
 
-        // 2. 创建货物信息，写入文件和链表
+        //2.创建货物信息，写入文件和链表
         GOODS_T* goods = (GOODS_T*)malloc(sizeof(GOODS_T));
         memset(goods, 0, sizeof(GOODS_T));
 
@@ -104,25 +104,25 @@ int goodIn()
         goods->goodsNum = targetOrder->goodsNum;
         strcpy(goods->storageLoc, storageLoc);
 
-        // 获取当前时间作为入库时间
+        //    获取当前时间作为入库时间
         time_t t = time(NULL);
         struct tm *tm = localtime(&t);
         sprintf(goods->inTime, "%04d-%02d-%02d %02d:%02d:%02d",
                 tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
                 tm->tm_hour, tm->tm_min, tm->tm_sec);
 
-        // 写入文件
+        //     写入文件
         fwrite(goods, sizeof(GOODS_T), 1, goods_fp);
         insertAtTail(goodsList, goods);
 
-        CONTROL_T succWin={245,300,200,80,"入库成功！",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+        CONTROL_T succWin={245,300,200,80,"入库成功！",CYAN, LIGHTCYAN,WHITE,BUTTON,0};
         control_show(succWin);
         Sleep(1500);
         return goodIn();
     }
     else if(win.current == 5)
     {
-        return 11;
+        return 10;
     }
     // 翻页逻辑
     else if(win.current == -1)
@@ -137,7 +137,7 @@ int goodIn()
     }
     return goodIn();
 }
-	 
+
 int goodOut()
 {
     static int pageNow = 1;
@@ -146,16 +146,16 @@ int goodOut()
     int count = 0;
     GOODS_T* p;
 
-    // 出库窗口
+    //   出 库窗口
     WINDOW_T win = {
-        0, 100, 850, 450, WHITE, 6,
+        0, 100, 850, 450, CYAN, 6,
         {
-            {50, 120, 120, 40, "订单号：",LIGHTCYAN,CYAN, WHITE, LABEL, 0, 0},
+            {50, 120, 120, 40, "订单号：",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
             {180, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 40}, // 订单号输入框
-            {400, 120, 120, 40, "经办人：", LIGHTCYAN,CYAN, WHITE, LABEL, 0, 0},
+            {400, 120, 120, 40, "经办人：", CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
             {530, 120, 150, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 20}, // 经办人输入框
-            {350, 200, 120, 40, "确认出库",LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 0},   //4
-            {500, 200, 120, 40, "返回", LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 1}, //5
+            {350, 200, 120, 40, "确认出库",CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 0},   //4
+            {500, 200, 120, 40, "返回", CYAN, LIGHTCYAN, WHITE, BUTTON, 0, 1}, //5
         }
     };
 
@@ -165,7 +165,7 @@ int goodOut()
         {"货物ID", "订单号", "货物名", "数量", "货位", "入库时间"}
     };
 
-    // 显示所有库存中的货物
+    //      显示所有库存中的货物
     memset(goodsTable.data, 0, sizeof(goodsTable.data));
     count = getListNodeCount(goodsList);
     pageNum = (count + pageCount - 1) / pageCount;
@@ -191,14 +191,14 @@ int goodOut()
     table_show(goodsTable, pageNum, pageNow);
     win = window_run(win);
 
-    // 确认出库按钮
+      //     确认出库
     if(win.current == 4)
     {
         char orderId[25], handler[20];
         strcpy(orderId, win.controls[1].text);
         strcpy(handler, win.controls[3].text);
 
-        // 找到对应货物和订单
+        //   找到对应货物和订单
         GOODS_T* targetGoods = NULL;
         LNode* cur = goodsList->next;
         while(cur != NULL)
@@ -214,13 +214,13 @@ int goodOut()
 
         if(targetGoods == NULL)
         {
-            CONTROL_T errWin={245,300,200,80,"货物不存在",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+            CONTROL_T errWin={245,300,200,80,"货物不存在",CYAN, LIGHTCYAN,WHITE,BUTTON,0};
             control_show(errWin);
             Sleep(1500);
             return goodOut();
         }
 
-        // 1. 更新订单状态为"运输中"
+              //1.更新订单状态为"运输中"
         ORDER_T* targetOrder = NULL;
         LNode* ordCur = orderList->next;
         while(ordCur != NULL)
@@ -235,10 +235,10 @@ int goodOut()
         }
         if(targetOrder != NULL)
         {
-            targetOrder->orderStatus = 4; // 运输中
+            targetOrder->orderStatus = 4; //运输中
         }
 
-        // 2. 更新货物信息
+              //2.更新货物信息
         strcpy(targetGoods->handler, handler);
         time_t t = time(NULL);
         struct tm* tm = localtime(&t);
@@ -246,17 +246,17 @@ int goodOut()
                 tm->tm_year+1900, tm->tm_mon+1, tm->tm_mday,
                 tm->tm_hour, tm->tm_min, tm->tm_sec);
 
-        // 出库成功提示
-        CONTROL_T succWin={245,300,200,80,"出库成功！",CYAN,LIGHTCYAN,WHITE,BUTTON,0};
+        //出库成功提示
+        CONTROL_T succWin={245,300,200,80,"出库成功！",CYAN, LIGHTCYAN,WHITE,BUTTON,0};
         control_show(succWin);
         Sleep(1500);
         return goodOut();
     }
 
-    // 翻页逻辑
+    //翻页逻辑
     else if(win.current == -1)
     {
-        if(pageNow > 1) 
+        if(pageNow > 1)
 		pageNow--;
         return goodOut();
     }
@@ -269,16 +269,15 @@ int goodOut()
     // 返回
     else if(win.current == 5)
     {
-        return 11;
+        return 10;
     }
 
-    return goodOut();
 }
 
 int goodSeach()
 {
     static int pageNow = 1;
-    const int pageCount = 3;
+    const int pageCount = 5;
     int pageNum;
     int count = 0;
     static char buf[50] = {0};
@@ -288,17 +287,18 @@ int goodSeach()
     WINDOW_T win = {
         0, 100, 850, 450, WHITE, 4,
         {
-            {50, 120, 120, 40, "搜索关键词：",LIGHTCYAN,CYAN, WHITE, LABEL, 0, 0},
-            {180, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 40},
-            {400, 120, 120, 40, "搜索",LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 0},
-            {550, 120, 120, 40, "返回",LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 1},
+            {50, 120, 100, 40, "搜索：", LIGHTCYAN, CYAN, WHITE, LABEL, 0, 0},
+            {160, 120, 200, 40, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 40},
+            {380, 120, 100, 40, "搜索", LIGHTCYAN, CYAN, WHITE, BUTTON, 0, 0},
+            {700, 120, 100, 40, "返回", LIGHTCYAN, CYAN, WHITE, BUTTON, 0, 1},
         }
     };
 
+    // 【优化】统一表格尺寸和列宽
     TABLE_T table = {
-        0, 180, 850, 220,
-        3, 6,
-        {"货物名称", "类型", "数量", "存储货位", "入库时间", "状态"}
+        20, 180, 810, 280,
+        6, 9,
+        {"订单号", "客户姓名", "电话", "货物名", "重量", "数量", "状态", "期望时间", "驳回原因"}
     };
 
     memset(table.data, 0, sizeof(table.data));
@@ -323,8 +323,8 @@ int goodSeach()
             sprintf(table.data[i][j++], "%d", p->goodsNum);
             strcpy(table.data[i][j++], p->storageLoc);
             strcpy(table.data[i][j++], p->inTime);
-            
-            // 显示状态：已入库/已出库
+
+            //显示状态:已入库/已出库
             if(strlen(p->outTime) == 0)
                 strcpy(table.data[i][j++], "在库");
             else
@@ -363,13 +363,25 @@ int goodSeach()
     table_show(table, pageNum, pageNow);
     win = window_run(win);
 
-    // 搜索按钮：按货物名称、类型、货位编号查询
+    // 搜索按钮:模糊查询货物名称 类型 货位编号 订单号
     if(win.current == 2)
     {
         strcpy(buf, win.controls[1].text);
         pageNow = 1;
 
-        if(tempList != NULL) freeList(tempList);
+        if(tempList != NULL)
+        {
+            // 释放临时链表中的数据节点
+            LNode* cur = tempList->next;
+            while(cur != NULL)
+            {
+                LNode* next = cur->next;
+                free(cur->data);
+                free(cur);
+                cur = next;
+            }
+            free(tempList);
+        }
         tempList = initList();
 
         int total = getListNodeCount(goodsList);
@@ -378,75 +390,90 @@ int goodSeach()
             GOODS_T* t = (GOODS_T*)findNode(goodsList, k);
             if(t == NULL) continue;
 
-            if(strstr(t->goodsName, buf) != NULL || 
-               strstr(t->goodsType, buf) != NULL || 
-               strstr(t->storageLoc, buf) != NULL)
+                        //模糊查询:支持货物名称  货物类型 货位编号  订单号
+            if(strstr(t->goodsName, buf) != NULL ||
+               strstr(t->goodsType, buf) != NULL ||
+               strstr(t->storageLoc, buf) != NULL ||
+               strstr(t->orderId, buf) != NULL)
             {
-                insertAtTail(tempList, t);
+                    //创建新的数据副本，避免双重释放问题,!!!!!!!!!!!!!z这li进行标记bug！！！！！！！！！！！！！！！！ 
+                GOODS_T* newGoods = (GOODS_T*)malloc(sizeof(GOODS_T));
+                memcpy(newGoods, t, sizeof(GOODS_T));
+                insertAtTail(tempList, newGoods);
             }
         }
         return goodSeach();
     }
 
-    // 上一页
+    //上一页
     else if(win.current == -1)
     {
         if(pageNow > 1) pageNow--;
         return goodSeach();
     }
 
-    // 下一页
+    //下一页
     else if(win.current == -2)
     {
         if(pageNow < pageNum) pageNow++;
         return goodSeach();
     }
 
-    // 返回
+    //返回
     else if(win.current == 3)
     {
         if(tempList != NULL)
         {
-            freeList(tempList);
+            //释放临时链表中的数据节点
+            LNode* cur = tempList->next;
+            while(cur != NULL)
+            {
+                LNode* next = cur->next;
+                free(cur->data);
+                free(cur);
+                cur = next;
+            }
+            free(tempList);
             tempList = NULL;
         }
         memset(buf, 0, sizeof(buf));
         pageNow = 1;
-        return 11;
+        return 10;
     }
 
     return goodSeach();
 }
 
-int storeWin()   
+int storeWin()
 {
     WINDOW_T win={290,155,220,330,WHITE,4,{
-        {300,160,200,40,"1.货物入库",LIGHTCYAN,CYAN,WHITE,BUTTON,1,0},    //0
+        {300,160,200,40,"1.货物入库",LIGHTCYAN,CYAN, WHITE,BUTTON,1,0},    //0
         {300,200,200,40,"2.货物出库",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //1
         {300,240,200,40,"3.库存查询",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //2
         {300,280,200,40,"4.返回上级",LIGHTCYAN,CYAN,WHITE,BUTTON,0,0},  //3
     },0};
 
 	Background_display();
-    
+
     window_show(win);
     win = window_run(win);
-    
-    if(win.current==0)   //{goodIn,goodOut,goodSeach}; //存储区块11 12 13 
+
+    if(win.current==0)   //{goodIn,goodOut,goodSeach}; //存储区块11 12 13
     {
-    	return 12; //货物入库 
+    	return 11; //货物入库
 	}
 	else if(win.current==1)
 	{
-		return 13; //货物出库 
-	} 
+		return 12; //货物出库
+	}
     else if(win.current==2)
     {
-    	return 14;    //货物查询 
+    	return 13;    //货物查询
 	}
 	else if(win.current==3)
 	{
-		return 2; 
-	} 
+		return 2;
+	}
 }
-    
+
+

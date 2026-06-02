@@ -5,6 +5,6 @@ int goodIn();
 int goodOut() ;
 int goodSeach() ;
 int storeWin(); 
-
+int storeStatWin();
 
 #endif

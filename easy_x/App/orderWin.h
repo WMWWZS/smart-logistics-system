@@ -4,4 +4,5 @@ int createOrderWin();
 int checkOrderWin(); 
 int orderSearchWin();
 int orderWin();
+int modifyOrderWin();
 #endif

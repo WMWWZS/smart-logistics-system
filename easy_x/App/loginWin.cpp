@@ -6,9 +6,9 @@
 #include <windows.h>
 int loginWin()
 {
-	WINDOW_T loginWin = {240,240,290,180, WHITE, 6,{
-	{245, 250, 80, 50, "用户名：",CYAN, LIGHTCYAN, WHITE,LABEL, 0, 0 },  //
-	{245, 305, 80, 50, "密 码：",CYAN, LIGHTCYAN, WHITE ,LABEL, 0, 0 },
+	WINDOW_T loginWin = {240,240,290,180, CYAN, 6,{
+	{245, 250, 80, 50, "用户名：",CYAN, LIGHTCYAN,WHITE,LABEL, 0, 0 },  //
+	{245, 305, 80, 50, "密 码：",CYAN, LIGHTCYAN,WHITE,LABEL ,0, 0 },
 	{320, 250, 200, 50, "",CYAN, LIGHTCYAN, WHITE ,EDIT, 1, 8} ,     //2用户名  
 	{320, 305, 200, 50, "",CYAN, LIGHTCYAN, WHITE ,EDIT_PWD, 0, 12},  //3密码 
 	{245, 360, 130,50, "登 录",LIGHTCYAN,CYAN,WHITE,BUTTON, 0, 0},

@@ -65,6 +65,7 @@ void file_read_list(FILE*fp,int size,void* head);
 //void DSL_write_list(FILE* fp,int size,void* head) ;
 
 void list_write_file(FILE* fp,int size,LNode* head);
+void file_upDate(FILE *fp, int size, void *data, int index) ; 
 
 LNode* order_data_init(FILE* fp); 
 LNode* goods_data_init(FILE* fp); 

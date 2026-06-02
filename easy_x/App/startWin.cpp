@@ -6,7 +6,7 @@
 int startWin() 
 {
 	WINDOW_T startWin = {290, 240 , 220 ,180, WHITE, 3,{
-	{300, 250, 200, 50, "登 录",LIGHTCYAN,CYAN,WHITE,BUTTON, 1,0},
+	{300, 250, 200, 50, "登 录",LIGHTCYAN,CYAN, WHITE,BUTTON, 1,0},
 	{300, 305, 200, 50, "忘记密码",LIGHTCYAN,CYAN,WHITE,BUTTON, 0,0},
 	{300, 365, 200, 50, "退出",LIGHTCYAN,CYAN,WHITE,BUTTON, 0,0}}} ; 
 	
@@ -17,7 +17,7 @@ int startWin()
 	if(startWin.current == 0)  //这里我将 == 写成 =  标记bug 
 	{
 		return 1; 
-	}
+	} 
 	else if(startWin.current == 1 )
 	{
 		return 22; 
@@ -31,19 +31,19 @@ int startWin()
 int resetPwdWin()
 {
     WINDOW_T win = {
-        200, 150, 450, 280, WHITE, 6,
+        200, 150, 450, 280, CYAN, 6,
         {
             // 用户名
-            {220, 180, 120, 30, "用户名：", LIGHTCYAN,CYAN, WHITE, LABEL, 0, 0},
+            {220, 180, 120, 30, "用户名：",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
             {350, 180, 180, 30, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 9},
             
             // 新密码
-            {220, 230, 120, 30, "新密码：", LIGHTCYAN,CYAN, WHITE, LABEL, 0, 0},
+            {220, 230, 120, 30, "新密码：",CYAN, LIGHTCYAN, WHITE, LABEL, 0, 0},
             {350, 230, 180, 30, "", CYAN, LIGHTCYAN, WHITE, EDIT, 0, 9},
             
             // 按钮
-            {250, 300, 120, 40, "确认重置", LIGHTCYAN, CYAN, WHITE, BUTTON, 0, 4},
-            {400, 300, 120, 40, "返回", LIGHTCYAN, CYAN, WHITE, BUTTON, 0, 5}
+            {250, 300, 120, 40, "确认重置",LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 4},
+            {400, 300, 120, 40, "返回",LIGHTCYAN,CYAN, WHITE, BUTTON, 0, 5}
         }
     };
 
@@ -113,7 +113,7 @@ int resetPwdWin()
             CONTROL_T tip = {245,300,220,70,"用户名不存在",LIGHTCYAN,CYAN,WHITE,BUTTON,0};
             control_show(tip);
             Sleep(1500);
-            return 22;
+            return 21;
         }
     }
 
